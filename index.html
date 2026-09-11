@@ -941,7 +941,15 @@ const avatars=[
 
 /* ================= ESTADO ================= */
 
-let state=JSON.parse(localStorage.getItem("miRPG")||"null")||{
+let state;
+
+try{
+ state=JSON.parse(localStorage.getItem("miRPG")||"null");
+}catch(e){
+ state=null;
+}
+
+state=state||{
  xp:0,
  points:0,
  avatar:"roach",
@@ -953,6 +961,19 @@ let state=JSON.parse(localStorage.getItem("miRPG")||"null")||{
  mood:{},
  recent:[]
 };
+
+/* Asegurar que un estado viejo o incompleto nunca rompa la app */
+state.xp=Number(state.xp)||0;
+state.points=Number(state.points)||0;
+state.avatar=state.avatar||"roach";
+state.unlocked=Array.isArray(state.unlocked)?state.unlocked:["roach"];
+if(!state.unlocked.includes("roach")) state.unlocked.unshift("roach");
+state.days=state.days&&typeof state.days==="object"?state.days:{};
+state.vape=state.vape&&typeof state.vape==="object"?state.vape:{};
+state.journal=state.journal&&typeof state.journal==="object"?state.journal:{};
+state.spontaneous=state.spontaneous&&typeof state.spontaneous==="object"?state.spontaneous:{};
+state.mood=state.mood&&typeof state.mood==="object"?state.mood:{};
+state.recent=Array.isArray(state.recent)?state.recent:[];
 
 function save(){
  localStorage.setItem("miRPG",JSON.stringify(state));
@@ -1242,6 +1263,9 @@ function renderCollection(){
 }
 
 function checkUnlocks(){
+
+ if(!Array.isArray(state.unlocked)) state.unlocked=["roach"];
+ if(!Array.isArray(state.recent)) state.recent=[];
 
  avatars.forEach(a=>{
 
@@ -1592,6 +1616,7 @@ function renderAll(){
  renderGoals();
  renderCollection();
  renderVape();
+ renderVapeStats();
  renderRecent();
  renderStats();
  updateClock();

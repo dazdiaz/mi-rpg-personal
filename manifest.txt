@@ -1,0 +1,24 @@
+{
+  "name": "MI RPG //",
+  "short_name": "MI RPG //",
+  "description": "Mi aplicación personal para convertir objetivos, proyectos y hábitos en un juego.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "icons": [
+    {
+      "src": "WhatsApp Image 2026-09-11 at 1.41.33 PM.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "WhatsApp Image 2026-09-11 at 1.41.33 PM.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111827">
+<title>Mi RPG Personal</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #111827;
+    color: #f9fafb;
+}
+
+button, input, textarea {
+    font: inherit;
+}
+
+.app {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* HEADER */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.date {
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+/* CHARACTER */
+
+.character-card {
+    background: linear-gradient(135deg, #243447, #182333);
+    border-radius: 24px;
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+.character {
+    width: 105px;
+    height: 105px;
+    border-radius: 50%;
+    background: #e5f6ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 62px;
+    flex-shrink: 0;
+}
+
+.level {
+    color: #a5f3fc;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.xp-number {
+    font-size: 26px;
+    font-weight: 800;
+}
+
+.xp-bar {
+    height: 12px;
+    background: #374151;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 8px;
+    width: 100%;
+}
+
+.xp-fill {
+    height: 100%;
+    width: 0%;
+    background: #22d3ee;
+    transition: width .4s ease;
+}
+
+/* NAV */
+
+.nav {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+.nav button {
+    border: 0;
+    background: #1f2937;
+    color: #d1d5db;
+    padding: 10px 15px;
+    border-radius: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.nav button.active {
+    background: #22d3ee;
+    color: #082f49;
+    font-weight: 800;
+}
+
+/* SECTIONS */
+
+.section {
+    background: #1f2937;
+    border-radius: 20px;
+    padding: 18px;
+    margin-bottom: 18px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.section-description {
+    color: #9ca3af;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+/* ACTIVITIES */
+
+.activity {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #111827;
+    border-radius: 15px;
+    padding: 13px;
+    margin-bottom: 9px;
+    transition: .2s;
+}
+
+.activity.done {
+    opacity: .55;
+}
+
+.activity.done .activity-name {
+    text-decoration: line-through;
+}
+
+.checkbox {
+    width: 27px;
+    height: 27px;
+    border-radius: 8px;
+    border: 2px solid #4b5563;
+    background: transparent;
+    cursor: pointer;
+    color: white;
+    flex-shrink: 0;
+}
+
+.activity.done .checkbox {
+    background: #22c55e;
+    border-color: #22c55e;
+}
+
+.activity-info {
+    flex: 1;
+}
+
+.activity-name {
+    font-weight: 650;
+}
+
+.activity-type {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 2px;
+}
+
+.xp {
+    color: #67e8f9;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+/* ADD */
+
+.add-button {
+    width: 100%;
+    border: 1px dashed #4b5563;
+    background: transparent;
+    color: #9ca3af;
+    padding: 12px;
+    border-radius: 14px;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+.add-button:hover {
+    border-color: #22d3ee;
+    color: #22d3ee;
+}
+
+/* INPUT */
+
+.add-box {
+    display: none;
+    margin-top: 10px;
+    gap: 8px;
+}
+
+.add-box.show {
+    display: flex;
+}
+
+.add-box input {
+    flex: 1;
+    background: #111827;
+    border: 1px solid #374151;
+    color: white;
+    border-radius: 12px;
+    padding: 11px;
+}
+
+.small-button {
+    border: 0;
+    border-radius: 12px;
+    padding: 10px 14px;
+    background: #22d3ee;
+    color: #082f49;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+/* VAPE */
+
+.vape-card {
+    text-align: center;
+}
+
+.vape-count {
+    font-size: 64px;
+    font-weight: 900;
+    line-height: 1;
+    margin: 10px;
+}
+
+.vape-button {
+    width: 100%;
+    max-width: 420px;
+    border: 0;
+    border-radius: 22px;
+    padding: 20px;
+    background: #fb7185;
+    color: white;
+    font-size: 20px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(251,113,133,.2);
+}
+
+.vape-button:active {
+    transform: scale(.97);
+}
+
+.undo {
+    margin-top: 10px;
+    background: transparent;
+    border: 0;
+    color: #9ca3af;
+    cursor: pointer;
+}
+
+.vape-info {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 18px;
+    color: #d1d5db;
+}
+
+/* JOURNAL */
+
+textarea {
+    width: 100%;
+    min-height: 160px;
+    resize: vertical;
+    background: #111827;
+    border: 1px solid #374151;
+    border-radius: 15px;
+    color: white;
+    padding: 15px;
+}
+
+.mood-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.mood {
+    background: #111827;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    padding: 9px 12px;
+    cursor: pointer;
+}
+
+.mood.selected {
+    border-color: #22d3ee;
+    background: #164e63;
+}
+
+/* SPONTANEOUS */
+
+.spontaneous {
+    background: #172554;
+    border: 1px solid #1e40af;
+}
+
+/* STATS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+}
+
+.stat {
+    background: #111827;
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+/* TOAST */
+
+.toast {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #ecfeff;
+    color: #083344;
+    padding: 13px 20px;
+    border-radius: 14px;
+    font-weight: 800;
+    transition: .3s;
+    z-index: 100;
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+/* MOBILE */
+
+@media(max-width:600px) {
+    .app {
+        padding: 12px;
+    }
+
+    .character-card {
+        padding: 16px;
+    }
+
+    .character {
+        width: 78px;
+        height: 78px;
+        font-size: 45px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+    <div>
+        <div class="logo">🎮 MI RPG</div>
+        <div class="date" id="today"></div>
+    </div>
+</header>
+
+<!-- CHARACTER -->
+
+<div class="character-card">
+    <div class="character">🐧</div>
+
+    <div style="flex:1">
+        <div class="level" id="level">NIVEL 1</div>
+        <div class="xp-number">
+            <span id="xp">0</span> XP
+        </div>
+
+        <div class="xp-bar">
+            <div class="xp-fill" id="xpFill"></div>
+        </div>
+
+        <div class="date" style="margin-top:7px">
+            Tu progreso lo decides tú.
+        </div>
+    </div>
+</div>
+
+<!-- NAVIGATION -->
+
+<div class="nav">
+    <button class="active" onclick="showTab('todayTab',this)">🏠 Hoy</button>
+    <button onclick="showTab('vapeTab',this)">🚭 Vape</button>
+    <button onclick="showTab('journalTab',this)">📝 Registro</button>
+</div>
+
+<!-- ================= HOY ================= -->
+
+<div id="todayTab">
+
+<div class="section">
+    <div class="section-title">⭐ MIS OBJETIVOS DE HOY</div>
+    <div class="section-description">
+        Tú decides qué quieres hacer. Marca cada cosa cuando la completes.
+    </div>
+
+    <div id="todayActivities"></div>
+</div>
+
+<!-- MUSIC -->
+
+<div class="section">
+    <div class="section-title">🎵 MÚSICA</div>
+    <div class="section-description">Preparación, aprendizaje, creación y cierre.</div>
+
+    <div id="musicActivities"></div>
+
+    <button class="add-button" onclick="toggleAdd('musicAdd')">
+        ＋ Agregar otra actividad de música
+    </button>
+
+    <div class="add-box" id="musicAdd">
+        <input id="musicInput" placeholder="¿Qué quieres hacer?">
+        <button class="small-button" onclick="addActivity('music')">Agregar</button>
+    </div>
+</div>
+
+<!-- CYANOTYPE -->
+
+<div class="section">
+    <div class="section-title">🎨 CIANOTIPIA</div>
+    <div class="section-description">Preparación, pruebas y resultados.</div>
+
+    <div id="cyanActivities"></div>
+
+    <button class="add-button" onclick="toggleAdd('cyanAdd')">
+        ＋ Agregar otra actividad de cianotipia
+    </button>
+
+    <div class="add-box" id="cyanAdd">
+        <input id="cyanInput" placeholder="¿Qué quieres hacer?">
+        <button class="small-button" onclick="addActivity('cyan')">Agregar</button>
+    </div>
+</div>
+
+<!-- ENGRAVING -->
+
+<div class="section">
+    <div class="section-title">🖤 GRABADO / LINOGRABADO</div>
+    <div class="section-description">Diseño, transferencia, tinta y pruebas.</div>
+
+    <div id="engravingActivities"></div>
+
+    <button class="add-button" onclick="toggleAdd('engravingAdd')">
+        ＋ Agregar otra actividad de grabado
+    </button>
+
+    <div class="add-box" id="engravingAdd">
+        <input id="engravingInput" placeholder="¿Qué quieres hacer?">
+        <button class="small-button" onclick="addActivity('engraving')">Agregar</button>
+    </div>
+</div>
+
+<!-- SHIRTS -->
+
+<div class="section">
+    <div class="section-title">👕 CAMISAS / ESTAMPADO</div>
+    <div class="section-description">Preparación, emulsión, exposición y resultado.</div>
+
+    <div id="shirtActivities"></div>
+
+    <button class="add-button" onclick="toggleAdd('shirtAdd')">
+        ＋ Agregar otra actividad de camisa
+    </button>
+
+    <div class="add-box" id="shirtAdd">
+        <input id="shirtInput" placeholder="¿Qué quieres hacer?">
+        <button class="small-button" onclick="addActivity('shirt')">Agregar</button>
+    </div>
+</div>
+
+<!-- EXERCISE -->
+
+<div class="section">
+    <div class="section-title">🏃 EJERCICIO</div>
+    <div class="section-description">Movimiento sin explotarte. Máximo 20 minutos en el gimnasio.</div>
+
+    <div id="exerciseActivities"></div>
+
+    <button class="add-button" onclick="toggleAdd('exerciseAdd')">
+        ＋ Agregar otra actividad de ejercicio
+    </button>
+
+    <div class="add-box" id="exerciseAdd">
+        <input id="exerciseInput" placeholder="¿Qué quieres hacer?">
+        <button class="small-button" onclick="addActivity('exercise')">Agregar</button>
+    </div>
+</div>
+
+<!-- LEARNING -->
+
+<div class="section">
+    <div class="section-title">🎓 APRENDIZAJE</div>
+    <div class="section-description">Aprender algo que te interese.</div>
+
+    <div id="learningActivities"></div>
+
+    <button class="add-button" onclick="toggleAdd('learningAdd')">
+        ＋ Agregar otro aprendizaje
+    </button>
+
+    <div class="add-box" id="learningAdd">
+        <input id="learningInput" placeholder="¿Qué quieres aprender?">
+        <button class="small-button" onclick="addActivity('learning')">Agregar</button>
+    </div>
+</div>
+
+<!-- HOME -->
+
+<div class="section">
+    <div class="section-title">🏠 CASA / ORGANIZACIÓN</div>
+    <div class="section-description">Ordenar, organizar y mejorar tus espacios.</div>
+
+    <div id="homeActivities"></div>
+
+    <button class="add-button" onclick="toggleAdd('homeAdd')">
+        ＋ Agregar actividad de casa
+    </button>
+
+    <div class="add-box" id="homeAdd">
+        <input id="homeInput" placeholder="¿Qué quieres hacer?">
+        <button class="small-button" onclick="addActivity('home')">Agregar</button>
+    </div>
+</div>
+
+<!-- SPONTANEOUS -->
+
+<div class="section spontaneous">
+    <div class="section-title">✨ HOY HICE ALGO QUE NO HABÍA PLANEADO</div>
+
+    <div class="section-description">
+        Aquí puedes registrar cualquier cosa que terminaste haciendo durante el día.
+        No tiene que estar en ninguna categoría.
+    </div>
+
+    <textarea id="spontaneousText"
+        placeholder="Hoy me senté y terminé haciendo..."></textarea>
+
+    <button class="small-button" style="margin-top:10px"
+        onclick="saveSpontaneous()">
+        Guardar registro
+    </button>
+</div>
+
+</div>
+
+<!-- ================= VAPE ================= -->
+
+<div id="vapeTab" style="display:none">
+
+<div class="section vape-card">
+
+    <div class="section-title">🚭 MI REGISTRO DE VAPE</div>
+
+    <div class="section-description">
+        Registra cada vez que uses el vape. Un toque = un registro.
+    </div>
+
+    <div class="vape-count" id="vapeCount">0</div>
+
+    <div style="color:#9ca3af;margin-bottom:18px">
+        usos registrados hoy
+    </div>
+
+    <button class="vape-button" onclick="addVape()">
+        💨 DI UNA CALADA
+    </button>
+
+    <button class="undo" onclick="undoVape()">
+        ↩ Deshacer último registro
+    </button>
+
+    <div class="vape-info">
+        <div>
+            <strong id="lastVape">—</strong><br>
+            <small>último registro</small>
+        </div>
+
+        <div>
+            <strong id="vapeTotal">0</strong><br>
+            <small>total registrado</small>
+        </div>
+    </div>
+
+</div>
+
+<div class="section">
+    <div class="section-title">📊 HISTORIAL</div>
+    <div class="section-description">
+        Con el tiempo podremos convertir esto en gráficas y estadísticas.
+    </div>
+
+    <div id="vapeHistory"></div>
+</div>
+
+</div>
+
+<!-- ================= JOURNAL ================= -->
+
+<div id="journalTab" style="display:none">
+
+<div class="section">
+
+    <div class="section-title">📝 ¿CÓMO ME SENTÍ HOY?</div>
+
+    <div class="mood-row">
+        <button class="mood" onclick="selectMood(this,'😊 Bien')">😊</button>
+        <button class="mood" onclick="selectMood(this,'🙂 Bien')">🙂</button>
+        <button class="mood" onclick="selectMood(this,'😐 Normal')">😐</button>
+        <button class="mood" onclick="selectMood(this,'😞 Mal')">😞</button>
+        <button class="mood" onclick="selectMood(this,'😰 Ansioso')">😰</button>
+        <button class="mood" onclick="selectMood(this,'😴 Cansado')">😴</button>
+        <button class="mood" onclick="selectMood(this,'🎨 Creativo')">🎨</button>
+    </div>
+
+    <textarea id="journalText"
+        placeholder="Escribe aquí lo que quieras recordar de hoy..."></textarea>
+
+    <button class="small-button" style="margin-top:10px"
+        onclick="saveJournal()">
+        Guardar journal
+    </button>
+
+</div>
+
+<div class="section">
+
+    <div class="section-title">📊 MIS ESTADÍSTICAS</div>
+
+    <div class="stats">
+
+        <div class="stat">
+            <div class="stat-number" id="completedStat">0</div>
+            <div class="stat-label">completados</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-number" id="xpStat">0</div>
+            <div class="stat-label">XP total</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-number" id="vapeStat">0</div>
+            <div class="stat-label">usos hoy</div>
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+/* =========================================
+   DATOS
+========================================= */
+
+const categories = {
+
+music: {
+    container: "musicActivities",
+    default: [
+        ["Montar la mesa / espacio para música",10],
+        ["Conectar todo",10],
+        ["Preparar la PC",10],
+        ["Aprender Moises AI",20],
+        ["Darle estructura a una idea o canción",20],
+        ["Grabar U-Bass",25],
+        ["Grabar guitarlele",25],
+        ["Grabar ukelele",25],
+        ["Grabar voz",25],
+        ["Experimentar con teclado",20],
+        ["Experimentar con percusión",20],
+        ["Usar instrumentos virtuales",20],
+        ["Guardar la grabación",10],
+        ["Escuchar lo que grabé",15],
+        ["Enviar la grabación a otras personas",15]
+    ]
+},
+
+cyan: {
+    container: "cyanActivities",
+    default: [
+        ["Hacer el negativo",15],
+        ["Pasar las emulsiones",15],
+        ["Hacer prueba de exposición",15],
+        ["Exponer",15],
+        ["Lavar",10],
+        ["Hacer el acabado",15],
+        ["Ver cómo quedó",10],
+        ["Evaluar si sirve para estampar una camisa",15]
+    ]
+},
+
+engraving: {
+    container: "engravingActivities",
+    default: [
+        ["Lograr imprimir en back release de sticker",15],
+        ["Hacer transferencia al bloque de linóleo",20],
+        ["Pasar la tinta",15],
+        ["Hacer pruebas de impresión",20]
+    ]
+},
+
+shirt: {
+    container: "shirtActivities",
+    default: [
+        ["Preparar las dimensiones de la camisa",15],
+        ["Poner la emulsión",15],
+        ["Dejar secar",10],
+        ["Poner en la lámpara",15],
+        ["Exponer",15],
+        ["Limpiarla",10],
+        ["Ver cómo quedó",10]
+    ]
+},
+
+exercise: {
+    container: "exerciseActivities",
+    default: [
+        ["Salir de casa",10],
+        ["Ir al gimnasio",20],
+        ["Entrenar hasta 20 minutos",25],
+        ["Usar máquinas del gimnasio",20],
+        ["Hacer plank en casa",15],
+        ["Registrar cómo me sentí",5]
+    ]
+},
+
+learning: {
+    container: "learningActivities",
+    default: [
+        ["Aprender inglés",15],
+        ["Aprender algo de música",15],
+        ["Aprender algo de linograbado",15],
+        ["Aprender algo de cianotipia",15]
+    ]
+},
+
+home: {
+    container: "homeActivities",
+    default: [
+        ["Organizar materiales de arte",15],
+        ["Organizar el lugar donde guardo el arte",20],
+        ["Ordenar herramientas",15],
+        ["Organizar el espacio de trabajo",15],
+        ["Ordenar una zona de la casa",15],
+        ["Limpiar una zona",15],
+        ["Hacer algo pendiente de la casa",15]
+    ]
+}
+
+};
+
+/* =========================================
+   ESTADO
+========================================= */
+
+let state = JSON.parse(localStorage.getItem("miRPG")) || {
+    xp: 0,
+    completed: 0,
+    today: {},
+    custom: {},
+    vape: {},
+    journal: {},
+    spontaneous: {}
+};
+
+const todayKey = new Date().toISOString().slice(0,10);
+
+if (!state.today[todayKey]) {
+    state.today[todayKey] = [];
+}
+
+if (!state.vape[todayKey]) {
+    state.vape[todayKey] = [];
+}
+
+if (!state.journal[todayKey]) {
+    state.journal[todayKey] = {
+        mood: "",
+        text: ""
+    };
+}
+
+function save() {
+    localStorage.setItem("miRPG", JSON.stringify(state));
+}
+
+/* =========================================
+   FECHA
+========================================= */
+
+document.getElementById("today").textContent =
+    new Date().toLocaleDateString("es-ES", {
+        weekday:"long",
+        day:"numeric",
+        month:"long",
+        year:"numeric"
+    });
+
+/* =========================================
+   RENDER ACTIVIDADES
+========================================= */
+
+function renderCategory(key) {
+
+    const category = categories[key];
+    const container = document.getElementById(category.container);
+
+    container.innerHTML = "";
+
+    let activities = category.default.map((item,index) => ({
+        id: key + "-default-" + index,
+        name: item[0],
+        xp: item[1],
+        custom: false
+    }));
+
+    const custom = state.custom[key] || [];
+
+    activities = activities.concat(custom);
+
+    activities.forEach(activity => {
+
+        const selected =
+            state.today[todayKey].some(x => x.id === activity.id);
+
+        const div = document.createElement("div");
+
+        div.className =
+            "activity" + (selected ? " done" : "");
+
+        div.innerHTML = `
+            <button class="checkbox"
+                onclick="toggleActivity('${key}','${activity.id}',${activity.xp},'${escapeQuotes(activity.name)}')">
+                ${selected ? "✓" : ""}
+            </button>
+
+            <div class="activity-info">
+                <div class="activity-name">${activity.name}</div>
+                <div class="activity-type">
+                    ${activity.custom ? "Actividad agregada por ti" : "Actividad"}
+                </div>
+            </div>
+
+            <div class="xp">+${activity.xp} XP</div>
+        `;
+
+        container.appendChild(div);
+    });
+}
+
+function escapeQuotes(text) {
+    return text.replace(/'/g,"\\'").replace(/"/g,'&quot;');
+}
+
+/* =========================================
+   TOGGLE ACTIVITY
+========================================= */
+
+function toggleActivity(key,id,xp,name) {
+
+    const list = state.today[todayKey];
+
+    const index = list.findIndex(x => x.id === id);
+
+    if (index >= 0) {
+
+        list.splice(index,1);
+
+        state.xp = Math.max(0,state.xp - xp);
+        state.completed = Math.max(0,state.completed - 1);
+
+        showToast("Actividad desmarcada");
+
+    } else {
+
+        list.push({
+            id,
+            name,
+            xp,
+            time: new Date().toLocaleTimeString()
+        });
+
+        state.xp += xp;
+        state.completed += 1;
+
+        showToast("+" + xp + " XP ⚡");
+    }
+
+    save();
+    renderAll();
+}
+
+/* =========================================
+   AGREGAR ACTIVIDAD
+========================================= */
+
+function toggleAdd(id) {
+    document.getElementById(id).classList.toggle("show");
+}
+
+function addActivity(key) {
+
+    const input = document.getElementById(key + "Input");
+
+    const name = input.value.trim();
+
+    if (!name) return;
+
+    if (!state.custom[key]) {
+        state.custom[key] = [];
+    }
+
+    state.custom[key].push({
+        id: key + "-custom-" + Date.now(),
+        name,
+        xp: 15,
+        custom: true
+    });
+
+    input.value = "";
+
+    save();
+    renderAll();
+
+    showToast("Actividad agregada");
+}
+
+/* =========================================
+   VAPE
+========================================= */
+
+function addVape() {
+
+    state.vape[todayKey].push({
+        time: new Date().toLocaleTimeString([], {
+            hour:"2-digit",
+            minute:"2-digit"
+        })
+    });
+
+    save();
+    renderAll();
+
+    showToast("💨 Registro guardado");
+}
+
+function undoVape() {
+
+    if (state.vape[todayKey].length === 0) return;
+
+    state.vape[todayKey].pop();
+
+    save();
+    renderAll();
+
+    showToast("Último registro eliminado");
+}
+
+function renderVape() {
+
+    const list = state.vape[todayKey];
+
+    document.getElementById("vapeCount").textContent = list.length;
+
+    document.getElementById("vapeTotal").textContent =
+        Object.values(state.vape)
+        .reduce((total,day) => total + day.length,0);
+
+    document.getElementById("lastVape").textContent =
+        list.length ? list[list.length-1].time : "—";
+
+    const history = document.getElementById("vapeHistory");
+
+    history.innerHTML = "";
+
+    Object.keys(state.vape)
+        .sort()
+        .reverse()
+        .slice(0,7)
+        .forEach(day => {
+
+            const row = document.createElement("div");
+
+            row.className = "activity";
+
+            row.innerHTML = `
+                <div class="activity-info">
+                    <div class="activity-name">${day}</div>
+                    <div class="activity-type">
+                        Registros de vape
+                    </div>
+                </div>
+                <div class="xp">${state.vape[day].length}</div>
+            `;
+
+            history.appendChild(row);
+        });
+}
+
+/* =========================================
+   JOURNAL
+========================================= */
+
+let selectedMood = state.journal[todayKey].mood || "";
+
+function selectMood(button,mood) {
+
+    document.querySelectorAll(".mood")
+        .forEach(x => x.classList.remove("selected"));
+
+    button.classList.add("selected");
+
+    selectedMood = mood;
+}
+
+function saveJournal() {
+
+    state.journal[todayKey] = {
+        mood: selectedMood,
+        text: document.getElementById("journalText").value
+    };
+
+    save();
+
+    showToast("📝 Journal guardado");
+}
+
+/* =========================================
+   SPONTANEOUS
+========================================= */
+
+function saveSpontaneous() {
+
+    const text =
+        document.getElementById("spontaneousText").value.trim();
+
+    if (!text) return;
+
+    if (!state.spontaneous[todayKey]) {
+        state.spontaneous[todayKey] = [];
+    }
+
+    state.spontaneous[todayKey].push({
+        text,
+        time: new Date().toLocaleTimeString()
+    });
+
+    document.getElementById("spontaneousText").value = "";
+
+    save();
+
+    showToast("✨ Registrado");
+}
+
+/* =========================================
+   TABS
+========================================= */
+
+function showTab(id,button) {
+
+    document.getElementById("todayTab").style.display = "none";
+    document.getElementById("vapeTab").style.display = "none";
+    document.getElementById("journalTab").style.display = "none";
+
+    document.getElementById(id).style.display = "block";
+
+    document.querySelectorAll(".nav button")
+        .forEach(x => x.classList.remove("active"));
+
+    button.classList.add("active");
+}
+
+/* =========================================
+   PROGRESO
+========================================= */
+
+function renderProgress() {
+
+    const xp = state.xp;
+
+    const level = Math.floor(xp / 100) + 1;
+
+    const current = xp % 100;
+
+    document.getElementById("level").textContent =
+        "NIVEL " + level;
+
+    document.getElementById("xp").textContent = xp;
+
+    document.getElementById("xpFill").style.width =
+        current + "%";
+
+    document.getElementById("completedStat").textContent =
+        state.completed;
+
+    document.getElementById("xpStat").textContent =
+        state.xp;
+
+    document.getElementById("vapeStat").textContent =
+        state.vape[todayKey].length;
+}
+
+/* =========================================
+   TOAST
+========================================= */
+
+let toastTimer;
+
+function showToast(text) {
+
+    const toast = document.getElementById("toast");
+
+    toast.textContent = text;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+    },1800);
+}
+
+/* =========================================
+   RENDER TODO
+========================================= */
+
+function renderAll() {
+
+    Object.keys(categories)
+        .forEach(renderCategory);
+
+    renderVape();
+    renderProgress();
+
+    const journal =
+        state.journal[todayKey];
+
+    document.getElementById("journalText").value =
+        journal.text || "";
+
+    if (journal.mood) {
+
+        document.querySelectorAll(".mood")
+            .forEach(button => {
+
+                if (button.textContent ===
+                    journal.mood.split(" ")[0]) {
+
+                    button.classList.add("selected");
+                }
+            });
+    }
+}
+
+renderAll();
+
+</script>
+
+</body>
+</html>

@@ -36,6 +36,7 @@ button{
   cursor:pointer;
   touch-action:manipulation;
   -webkit-tap-highlight-color:transparent;
+  cursor:pointer;
 }
 
 .app{
@@ -197,9 +198,8 @@ button{
 
 .goal{
   display:grid;
-  grid-template-columns:44px minmax(0,1fr) auto;
-  column-gap:18px;
-  row-gap:10px;
+  grid-template-columns:30px 1fr auto;
+  gap:10px;
   align-items:center;
   border-bottom:1px solid #202020;
   padding:11px 0;
@@ -207,10 +207,17 @@ button{
 
 .goal:last-child{border-bottom:0}
 
+.goal{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
 .goal-check{
-  width:32px;
-  min-width:32px;
-  height:32px;
+  flex:0 0 44px;
+  min-width:44px;
+  min-height:44px;
+  height:22px;
   border:1px solid var(--gray);
   background:#000;
   color:var(--green);
@@ -250,47 +257,6 @@ button{
 .add:hover{
   background:var(--green);
   color:#000;
-}
-
-.reset-day{
-  width:100%;
-  margin-top:8px;
-  background:#000;
-  color:var(--red);
-  border:1px solid var(--red);
-  padding:11px;
-  min-height:44px;
-  cursor:pointer;
-}
-
-.reset-day:hover{
-  background:var(--red);
-  color:#000;
-}
-
-.goal-check{
-  min-width:44px;
-  min-height:44px;
-  width:44px;
-  height:44px;
-  padding:0;
-  cursor:pointer;
-}
-
-.activity button{
-  min-width:120px;
-  min-height:44px;
-  cursor:pointer;
-}
-
-.save{
-  min-height:44px;
-  cursor:pointer;
-}
-
-.vape-button,.undo{
-  min-height:48px;
-  cursor:pointer;
 }
 
 /* CATEGORIES */
@@ -393,6 +359,8 @@ textarea{
 }
 
 .save{
+  min-height:44px;
+  cursor:pointer;
   margin-top:8px;
   background:#000;
   color:var(--green);
@@ -425,6 +393,8 @@ textarea{
 }
 
 .vape-button{
+  min-height:48px;
+  cursor:pointer;
   width:100%;
   background:var(--red);
   color:#000;
@@ -435,6 +405,8 @@ textarea{
 }
 
 .undo{
+  min-height:44px;
+  cursor:pointer;
   width:100%;
   margin-top:7px;
   background:#000;
@@ -515,6 +487,22 @@ textarea{
   border:1px solid var(--red);
   color:var(--red);
   padding:5px 10px;
+}
+
+.reset-day{
+  width:100%;
+  margin-top:8px;
+  background:#000;
+  color:var(--red);
+  border:1px solid var(--red);
+  padding:11px;
+  min-height:44px;
+  cursor:pointer;
+}
+
+.reset-day:hover{
+  background:var(--red);
+  color:#000;
 }
 
 /* RESPONSIVE */
@@ -745,17 +733,19 @@ también es una estrategia."
 <div id="vapeHistory" class="small"></div>
 </div>
 
-<div class="panel">
-<div class="panel-title">ESTADÍSTICAS_VAPE</div>
-<div id="vapeStats" class="small"></div>
-</div>
-
 </div>
 
 </div>
 
 </section>
 
+
+<!-- ================= ESTADÍSTICAS VAPE ================= -->
+
+<div class="panel">
+<div class="panel-title">ESTADÍSTICAS_VAPE</div>
+<div id="vapeStats" class="small"></div>
+</div>
 
 <!-- ================= REGISTRO ================= -->
 
@@ -943,7 +933,6 @@ const avatars=[
 /* ================= ESTADO ================= */
 
 let state;
-
 try{
  state=JSON.parse(localStorage.getItem("miRPG")||"null");
 }catch(e){
@@ -963,18 +952,24 @@ state=state||{
  recent:[]
 };
 
-/* Asegurar que un estado viejo o incompleto nunca rompa la app */
 state.xp=Number(state.xp)||0;
 state.points=Number(state.points)||0;
 state.avatar=state.avatar||"roach";
 state.unlocked=Array.isArray(state.unlocked)?state.unlocked:["roach"];
-if(!state.unlocked.includes("roach")) state.unlocked.unshift("roach");
 state.days=state.days&&typeof state.days==="object"?state.days:{};
 state.vape=state.vape&&typeof state.vape==="object"?state.vape:{};
 state.journal=state.journal&&typeof state.journal==="object"?state.journal:{};
 state.spontaneous=state.spontaneous&&typeof state.spontaneous==="object"?state.spontaneous:{};
 state.mood=state.mood&&typeof state.mood==="object"?state.mood:{};
 state.recent=Array.isArray(state.recent)?state.recent:[];
+
+// Limpia desbloqueos viejos que no corresponden a los puntos actuales.
+state.unlocked=state.unlocked.filter(id=>{
+ const a=avatars.find(x=>x.id===id);
+ return a && (a.cost===0 || state.points>=a.cost);
+});
+if(!state.unlocked.includes("roach"))state.unlocked.unshift("roach");
+if(!state.unlocked.includes(state.avatar))state.avatar="roach";
 
 function save(){
  localStorage.setItem("miRPG",JSON.stringify(state));
@@ -1093,6 +1088,15 @@ function toggleGoal(index){
  renderAll();
 }
 
+
+function resetToday(){
+ if(!confirm("¿Seguro que quieres reiniciar el día? Esto borra solo los objetivos de HOY. Tu XP, puntos, avatares y vape se mantienen."))return;
+ const k=dateKey();
+ delete state.days[k];
+ save();
+ loadJournal();
+ renderAll();
+}
 
 /* ================= CATEGORIAS ================= */
 
@@ -1226,7 +1230,7 @@ function renderCollection(){
 
  const html=avatars.map(a=>{
 
-   const unlocked=state.unlocked.includes(a.id);
+   const unlocked=state.unlocked.includes(a.id) || a.cost===0;
    const current=state.avatar===a.id;
 
    return `
@@ -1264,34 +1268,22 @@ function renderCollection(){
 }
 
 function checkUnlocks(){
-
- if(!Array.isArray(state.unlocked)) state.unlocked=["roach"];
- if(!Array.isArray(state.recent)) state.recent=[];
+ if(!Array.isArray(state.unlocked))state.unlocked=["roach"];
+ if(!Array.isArray(state.recent))state.recent=[];
 
  avatars.forEach(a=>{
-
-   if(
-     !state.unlocked.includes(a.id) &&
-     state.points>=a.cost &&
-     a.cost>0
-   ){
-
+   if(!state.unlocked.includes(a.id) && state.points>=a.cost){
      state.unlocked.push(a.id);
-
-     state.recent.unshift({
-       text:"¡DESBLOQUEASTE "+a.name+"!",
-       xp:0,
-       points:0,
-       time:new Date().toLocaleTimeString([],{
-         hour:"2-digit",
-         minute:"2-digit"
-       })
-     });
-
+     if(a.cost>0){
+       state.recent.unshift({
+         text:"¡DESBLOQUEASTE "+a.name+"!",
+         xp:0,
+         points:0,
+         time:new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})
+       });
+     }
    }
-
  });
-
  save();
 }
 
@@ -1374,55 +1366,33 @@ function renderVape(){
 
 
 function renderVapeStats(){
-
  const now=new Date();
  const todayKey=dateKey();
  const todayList=state.vape[todayKey]||[];
-
  const hourCounts=Array(24).fill(0);
- todayList.forEach(ts=>{
-   hourCounts[new Date(ts).getHours()]++;
- });
-
- const hourly=hourCounts
-   .map((n,h)=>({n,h}))
-   .filter(x=>x.n>0)
-   .map(x=>`${String(x.h).padStart(2,"0")}:00 → ${x.n} calada${x.n===1?"":"s"}`)
-   .join("<br>") || "Todavía no hay caladas hoy.";
-
+ todayList.forEach(ts=>{hourCounts[new Date(ts).getHours()]++;});
+ const hourly=hourCounts.map((n,h)=>({n,h})).filter(x=>x.n>0)
+   .map(x=>`${String(x.h).padStart(2,"0")}:00 → ${x.n} calada${x.n===1?"":"s"}`).join("<br>") || "Todavía no hay caladas hoy.";
  const start7=new Date(now);
  start7.setHours(0,0,0,0);
  start7.setDate(start7.getDate()-6);
-
  let weekTotal=0;
  const weekRows=[];
  for(let i=0;i<7;i++){
-   const d=new Date(start7);
-   d.setDate(start7.getDate()+i);
+   const d=new Date(start7); d.setDate(start7.getDate()+i);
    const k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
-   const n=(state.vape[k]||[]).length;
-   weekTotal+=n;
-   weekRows.push(`${k} → ${n}`);
+   const n=(state.vape[k]||[]).length; weekTotal+=n; weekRows.push(`${k} → ${n}`);
  }
-
- const monthlyRows=[];
- let monthlyTotal=0;
+ const monthlyRows=[]; let monthlyTotal=0;
  for(let i=0;i<6;i++){
    const d=new Date(now.getFullYear(),now.getMonth()-i,1);
    const prefix=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
-   let total=0;
-   Object.keys(state.vape).forEach(k=>{
-     if(k.startsWith(prefix))total+=(state.vape[k]||[]).length;
-   });
-   monthlyTotal+=total;
-   monthlyRows.push(`${prefix} → ${total}`);
+   let total=0; Object.keys(state.vape).forEach(k=>{if(k.startsWith(prefix))total+=(state.vape[k]||[]).length;});
+   monthlyTotal+=total; monthlyRows.push(`${prefix} → ${total}`);
  }
-
- const avg7=(weekTotal/7).toFixed(1);
-
  document.getElementById("vapeStats").innerHTML=
    `<b>POR HORA — HOY</b><br>${hourly}<br><br>`+
-   `<b>ÚLTIMOS 7 DÍAS</b><br>TOTAL: ${weekTotal}<br>PROMEDIO: ${avg7}/día<br>${weekRows.join("<br>")}<br><br>`+
+   `<b>ÚLTIMOS 7 DÍAS</b><br>TOTAL: ${weekTotal}<br>PROMEDIO: ${(weekTotal/7).toFixed(1)}/día<br>${weekRows.join("<br>")}<br><br>`+
    `<b>ÚLTIMOS 6 MESES</b><br>${monthlyRows.join("<br>")}<br><br>`+
    `<span class="small">TOTAL 6 MESES: ${monthlyTotal}</span>`;
 }
@@ -1612,7 +1582,7 @@ function escapeHTML(str){
 /* ================= TODO ================= */
 
 function renderAll(){
-
+ checkUnlocks();
  renderProfile();
  renderGoals();
  renderCollection();
@@ -1624,23 +1594,8 @@ function renderAll(){
 }
 
 
-/* ================= RESET DEL DÍA ================= */
-
-function resetToday(){
-  if(!confirm("¿Seguro que quieres reiniciar el día? Esto borrará solo los datos de HOY. Tu XP, puntos, avatares desbloqueados y avatar actual se mantienen.")) return;
-
-  const k=dateKey();
-
-  delete state.days[k];
-
-  save();
-  loadJournal();
-  renderAll();
-}
-
 /* ================= ARRANQUE ================= */
 
-checkUnlocks();
 renderAll();
 
 </script>

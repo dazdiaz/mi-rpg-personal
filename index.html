@@ -197,8 +197,9 @@ button{
 
 .goal{
   display:grid;
-  grid-template-columns:30px 1fr auto;
-  gap:10px;
+  grid-template-columns:44px minmax(0,1fr) auto;
+  column-gap:18px;
+  row-gap:10px;
   align-items:center;
   border-bottom:1px solid #202020;
   padding:11px 0;
@@ -930,12 +931,12 @@ const activities={
 const avatars=[
  {id:"roach",name:"CUCARACHA",icon:"🪳",img:"cuca.png",cost:0},
  {id:"snail",name:"CARACOL",icon:"🐌",img:"cara.png",cost:100},
- {id:"mouse",name:"RATÓN",icon:"🐭",cost:250},
- {id:"frog",name:"RANA",icon:"🐸",cost:450},
- {id:"cat",name:"GATO",icon:"🐱",cost:700},
- {id:"fox",name:"ZORRO",icon:"🦊",cost:1000},
- {id:"raccoon",name:"MAPACHE",icon:"🦝",cost:1300},
- {id:"coqui",name:"COQUÍ",icon:"🐸",cost:1500}
+ {id:"mouse",name:"RATÓN",icon:"🐭",img:"raton.png",cost:250},
+ {id:"penguin",name:"PINGÜINO",icon:"🐧",img:"pingui.png",cost:450},
+ {id:"cat",name:"GATO",icon:"🐱",img:"gato.png",cost:700},
+ {id:"fox",name:"ZORRO",icon:"🦊",img:"zorro.png",cost:1000},
+ {id:"raccoon",name:"MAPACHE",icon:"🦝",img:"mapache.png",cost:1300},
+ {id:"coqui",name:"COQUÍ",icon:"🐸",img:"coqui.png",cost:1500}
 ];
 
 

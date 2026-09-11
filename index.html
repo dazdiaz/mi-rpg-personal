@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#050505">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/jpeg" href="WhatsApp Image 2026-09-11 at 1.41.33 PM.jpeg">
+<link rel="apple-touch-icon" href="WhatsApp Image 2026-09-11 at 1.41.33 PM.jpeg">
 <title>MI RPG //</title>
 
 <style>
@@ -74,6 +77,34 @@ button{
   color:var(--gray);
   font-size:13px;
 }
+
+.header-right{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:8px;
+}
+
+.lang-switch{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  color:var(--gray);
+  font-size:12px;
+}
+
+.lang-switch button{
+  background:transparent;
+  color:var(--gray);
+  border:0;
+  padding:2px 4px;
+}
+
+.lang-switch button.active{
+  color:var(--green);
+  text-decoration:underline;
+}
+
 
 /* NAV */
 
@@ -533,20 +564,27 @@ textarea{
 <header class="header">
   <div>
     <div class="logo">MI RPG<span>//</span></div>
-    <div class="system">// DISCIPLINA_ES_LIBERTAD</div>
+    <div class="system" data-i18n="system">// DISCIPLINA_ES_LIBERTAD</div>
   </div>
 
-  <div class="clock">
-    <div id="date"></div>
-    <div id="time"></div>
+  <div class="header-right">
+    <div class="lang-switch" aria-label="Language">
+      <button id="lang-es" onclick="setLanguage('es')">ES</button>
+      <span>/</span>
+      <button id="lang-en" onclick="setLanguage('en')">EN</button>
+    </div>
+    <div class="clock">
+      <div id="date"></div>
+      <div id="time"></div>
+    </div>
   </div>
 </header>
 
 <nav class="nav">
-  <button class="active" onclick="showTab('hoy',this)">[ 01_HOY ]</button>
-  <button onclick="showTab('vape',this)">[ 02_VAPE ]</button>
-  <button onclick="showTab('registro',this)">[ 03_REGISTRO ]</button>
-  <button onclick="showTab('coleccion',this)">[ 04_COLECCION ]</button>
+  <button class="active" onclick="showTab('hoy',this)" data-i18n="tab_today">[ 01_HOY ]</button>
+  <button onclick="showTab('vape',this)" data-i18n="tab_vape">[ 02_VAPE ]</button>
+  <button onclick="showTab('registro',this)" data-i18n="tab_record">[ 03_REGISTRO ]</button>
+  <button onclick="showTab('coleccion',this)" data-i18n="tab_collection">[ 04_COLECCION ]</button>
 </nav>
 
 <!-- ================= HOY ================= -->
@@ -560,15 +598,15 @@ textarea{
 <div class="column">
 
 <div class="panel">
-<div class="panel-title">USUARIO</div>
+<div class="panel-title" data-i18n="user">USUARIO</div>
 
 <div class="avatar-box">
   <div class="avatar" id="mainAvatar">🪳</div>
 
   <div>
-    <div class="level">NIVEL <span id="level">1</span></div>
+    <div class="level"><span data-i18n="level">NIVEL</span> <span id="level">1</span></div>
     <div id="avatarName" class="avatar-name">CUCARACHA</div>
-    <div class="small">"Desde abajo también se avanza."</div>
+    <div class="small" data-i18n="motto">"Desde abajo también se avanza."</div>
   </div>
 </div>
 
@@ -582,32 +620,29 @@ textarea{
   </div>
 
   <div class="points">
-    PUNTOS: <span id="points">0</span>
+    <span data-i18n="points">PUNTOS:</span> <span id="points">0</span>
   </div>
 </div>
 
 </div>
 
 <div class="panel">
-<div class="panel-title">ESTADÍSTICAS</div>
+<div class="panel-title" data-i18n="stats">ESTADÍSTICAS</div>
 
-<div class="small">OBJETIVOS COMPLETADOS</div>
+<div class="small" data-i18n="completed">OBJETIVOS COMPLETADOS</div>
 <div style="color:var(--green);font-size:22px;margin:6px 0 15px" id="completedTotal">0</div>
 
-<div class="small">XP TOTAL</div>
+<div class="small" data-i18n="total_xp">XP TOTAL</div>
 <div style="color:var(--green);font-size:22px;margin:6px 0 15px" id="totalXP">0</div>
 
-<div class="small">CALADAS HOY</div>
+<div class="small" data-i18n="hits_today">CALADAS HOY</div>
 <div style="color:var(--red);font-size:22px;margin-top:6px" id="usesStat">0</div>
 </div>
 
 <div class="panel">
-<div class="panel-title">MENSAJE_DEL_SISTEMA</div>
+<div class="panel-title" data-i18n="system_message">MENSAJE_DEL_SISTEMA</div>
 
-<div class="terminal">
-&gt; Las cosas no se hacen solas.<br>
-&gt; Marca un objetivo y empieza.<br><br>
-<span class="cursor"></span>
+<div class="terminal" id="systemMessage"></div>
 </div>
 </div>
 
@@ -619,36 +654,36 @@ textarea{
 
 <div class="panel">
 
-<div class="panel-title">OBJETIVOS_DE_HOY</div>
+<div class="panel-title" data-i18n="today_goals">OBJETIVOS_DE_HOY</div>
 
 <div id="goals"></div>
 
 <button class="add" onclick="openCategories()">
-[ + ELEGIR OBJETIVOS ]
+<span data-i18n="choose_goals">[ + ELEGIR OBJETIVOS ]</span>
 </button>
 
 <button class="reset-day" onclick="resetToday()">
-[ RESET DEL DÍA ]
+<span data-i18n="reset_day">[ RESET DEL DÍA ]</span>
 </button>
 
 </div>
 
 <div class="panel">
 
-<div class="panel-title">HOY_HICE...</div>
+<div class="panel-title" data-i18n="today_did">HOY_HICE...</div>
 
-<textarea id="spontaneous" placeholder="Algo que hiciste y no estaba planeado..."></textarea>
+<textarea id="spontaneous" placeholder="Algo que hiciste y no estaba planeado..." data-placeholder="spontaneous_placeholder"></textarea>
 
 <button class="save" onclick="saveSpontaneous()">
-[ GUARDAR ]
+<span data-i18n="save">[ GUARDAR ]</span>
 </button>
 
 </div>
 
 <div class="panel">
 
-<div class="panel-title">ACTIVIDAD_RECIENTE</div>
-<div id="recent" class="small">Todavía no hay actividad.</div>
+<div class="panel-title" data-i18n="recent_activity">ACTIVIDAD_RECIENTE</div>
+<div id="recent" class="small"></div>
 
 </div>
 
@@ -660,7 +695,7 @@ textarea{
 
 <div class="panel">
 
-<div class="panel-title">COLECCIÓN</div>
+<div class="panel-title" data-i18n="collection">COLECCIÓN</div>
 
 <div class="collection" id="collection"></div>
 
@@ -668,11 +703,10 @@ textarea{
 
 <div class="panel">
 
-<div class="panel-title">FRASE_DEL_DÍA</div>
+<div class="panel-title" data-i18n="phrase">FRASE_DEL_DÍA</div>
 
 <div style="line-height:1.7">
-"Un día a la vez,<br>
-también es una estrategia."
+<span data-i18n="daily_phrase">"Un día a la vez,<br>también es una estrategia."</span>
 </div>
 
 <div style="color:var(--green);margin-top:10px">
@@ -696,17 +730,17 @@ también es una estrategia."
 <div class="column">
 
 <div class="panel">
-<div class="panel-title">VAPE // HOY</div>
+<div class="panel-title" data-i18n="vape_today">VAPE // HOY</div>
 
 <div class="vape-count" id="vapeCount">0</div>
-<div class="small">CALADAS REGISTRADAS</div>
+<div class="small" data-i18n="hits_recorded">CALADAS REGISTRADAS</div>
 
 <button class="vape-button" onclick="addVape()">
-[ 💨 REGISTRAR UNA CALADA ]
+<span data-i18n="register_hit">[ 💨 REGISTRAR UNA CALADA ]</span>
 </button>
 
 <button class="undo" onclick="undoVape()">
-[ DESHACER ÚLTIMA ]
+<span data-i18n="undo_last">[ DESHACER ÚLTIMA ]</span>
 </button>
 </div>
 
@@ -715,12 +749,12 @@ también es una estrategia."
 <div class="column">
 
 <div class="panel">
-<div class="panel-title">REGISTRO_VAPE</div>
+<div class="panel-title" data-i18n="vape_record">REGISTRO_VAPE</div>
 
-<div class="small">ÚLTIMA CALADA</div>
+<div class="small" data-i18n="last_hit">ÚLTIMA CALADA</div>
 <div id="lastVape" style="margin:7px 0 20px">—</div>
 
-<div class="small">MEJOR INTERVALO</div>
+<div class="small" data-i18n="best_interval">MEJOR INTERVALO</div>
 <div id="bestInterval" style="margin-top:7px">—</div>
 </div>
 
@@ -729,7 +763,7 @@ también es una estrategia."
 <div class="column">
 
 <div class="panel">
-<div class="panel-title">HISTORIAL</div>
+<div class="panel-title" data-i18n="history">HISTORIAL</div>
 <div id="vapeHistory" class="small"></div>
 </div>
 
@@ -743,7 +777,7 @@ también es una estrategia."
 <!-- ================= ESTADÍSTICAS VAPE ================= -->
 
 <div class="panel">
-<div class="panel-title">ESTADÍSTICAS_VAPE</div>
+<div class="panel-title" data-i18n="vape_stats">ESTADÍSTICAS_VAPE</div>
 <div id="vapeStats" class="small"></div>
 </div>
 
@@ -757,7 +791,7 @@ también es una estrategia."
 
 <div class="panel">
 
-<div class="panel-title">¿CÓMO_TE_SENTISTE?</div>
+<div class="panel-title" data-i18n="how_feel">¿CÓMO_TE_SENTISTE?</div>
 
 <div class="moods">
 <button onclick="setMood('😊',this)">😊</button>
@@ -769,10 +803,10 @@ también es una estrategia."
 <button onclick="setMood('🎨',this)">🎨</button>
 </div>
 
-<textarea id="journal" placeholder="Escribe cómo te sentiste..."></textarea>
+<textarea id="journal" placeholder="Escribe cómo te sentiste..." data-placeholder="journal_placeholder"></textarea>
 
 <button class="save" onclick="saveJournal()">
-[ GUARDAR REGISTRO ]
+<span data-i18n="save_record">[ GUARDAR REGISTRO ]</span>
 </button>
 
 </div>
@@ -790,10 +824,10 @@ también es una estrategia."
 
 <div class="panel">
 
-<div class="panel-title">MI_COLECCIÓN</div>
+<div class="panel-title" data-i18n="my_collection">MI_COLECCIÓN</div>
 
 <p class="small">
-Completa objetivos para ganar puntos y desbloquear nuevos avatares.
+<span data-i18n="collection_help">Completa objetivos para ganar puntos y desbloquear nuevos avatares.</span>
 </p>
 
 <div class="collection" id="collectionBig"></div>
@@ -813,7 +847,7 @@ Completa objetivos para ganar puntos y desbloquear nuevos avatares.
 
 <button class="close" onclick="closeModal('categoryModal')">X</button>
 
-<h2>SELECCIONA_CATEGORÍA</h2>
+<h2 data-i18n="select_category">SELECCIONA_CATEGORÍA</h2>
 
 <div id="categoryList" class="categories"></div>
 
@@ -829,7 +863,7 @@ Completa objetivos para ganar puntos y desbloquear nuevos avatares.
 
 <button class="close" onclick="closeModal('activityModal')">X</button>
 
-<h2 id="activityTitle">ACTIVIDADES</h2>
+<h2 id="activityTitle" data-i18n="activities">ACTIVIDADES</h2>
 
 <div id="activityList"></div>
 
@@ -949,7 +983,8 @@ state=state||{
  journal:{},
  spontaneous:{},
  mood:{},
- recent:[]
+ recent:[],
+ lang:"es"
 };
 
 state.xp=Number(state.xp)||0;
@@ -962,6 +997,7 @@ state.journal=state.journal&&typeof state.journal==="object"?state.journal:{};
 state.spontaneous=state.spontaneous&&typeof state.spontaneous==="object"?state.spontaneous:{};
 state.mood=state.mood&&typeof state.mood==="object"?state.mood:{};
 state.recent=Array.isArray(state.recent)?state.recent:[];
+state.lang=state.lang==="en"?"en":"es";
 
 // Limpia desbloqueos viejos que no corresponden a los puntos actuales.
 state.unlocked=state.unlocked.filter(id=>{
@@ -1011,43 +1047,25 @@ function renderProfile(){
  const av=avatars.find(a=>a.id===state.avatar)||avatars[0];
 
 document.getElementById("mainAvatar").innerHTML=av.img?`<img src="${av.img}" style="width:100%;height:100%;object-fit:contain">`:av.icon;
- document.getElementById("avatarName").textContent=av.name;
+ document.getElementById("avatarName").textContent=avatarDisplayName(av.name);
 }
 
 
 /* ================= OBJETIVOS ================= */
 
 function renderGoals(){
-
  const box=document.getElementById("goals");
  const list=today();
-
  if(!list.length){
-   box.innerHTML=
-   `<div class="small" style="padding:20px 0">
-   > No hay objetivos seleccionados.<br>
-   > Tú decides qué quieres intentar hoy.
-   </div>`;
+   box.innerHTML=`<div class="small" style="padding:20px 0">${t("no_goals")}<br>${t("you_decide")}</div>`;
    return;
  }
-
  box.innerHTML=list.map((g,i)=>`
-
  <div class="goal ${g.done?"done":""}">
-
-   <button class="goal-check" onclick="toggleGoal(${i})">
-   ${g.done?"✓":""}
-   </button>
-
-   <div class="goal-name">${escapeHTML(g.name)}</div>
-
-   <div class="reward">
-   +${g.xp} XP &nbsp; <span>+${g.points}</span>
-   </div>
-
- </div>
-
- `).join("");
+   <button class="goal-check" onclick="toggleGoal(${i})">${g.done?"✓":""}</button>
+   <div class="goal-name">${escapeHTML(activityDisplayName(g.name))}</div>
+   <div class="reward">+${g.xp} XP &nbsp; <span>+${g.points}</span></div>
+ </div>`).join("");
 }
 
 function toggleGoal(index){
@@ -1090,7 +1108,7 @@ function toggleGoal(index){
 
 
 function resetToday(){
- if(!confirm("¿Seguro que quieres reiniciar el día? Esto borra solo los objetivos de HOY. Tu XP, puntos, avatares y vape se mantienen."))return;
+ if(!confirm(t("reset_confirm")))return;
  const k=dateKey();
  delete state.days[k];
  save();
@@ -1110,8 +1128,8 @@ function openCategories(){
 
  <button class="category" onclick='openActivities(${JSON.stringify(c)})'>
 
- <b>${c}</b>
- <small>${activities[c].length} actividades</small>
+ <b>${categoryDisplayName(c)}</b>
+ <small>${activities[c].length} ${t("activities_count")}</small>
 
  </button>
 
@@ -1125,7 +1143,8 @@ function openActivities(category){
  document.getElementById("activityModal").classList.add("show");
 
  document.getElementById("activityTitle").textContent=
- "// "+category.toUpperCase();
+ "// "+categoryDisplayName(category).toUpperCase();
+ document.getElementById("activityTitle").dataset.category=category;
 
  const selected=today();
 
@@ -1140,14 +1159,14 @@ function openActivities(category){
    <div class="activity">
 
      <div>
-       ${escapeHTML(a[0])}
-       <div class="small">+${a[1]} XP · +${a[2]} puntos</div>
+       ${escapeHTML(activityDisplayName(a[0]))}
+       <div class="small">+${a[1]} XP · +${a[2]} ${t("points_word")}</div>
      </div>
 
      <button class="${exists?"selected":""}"
        onclick='toggleActivity(${JSON.stringify(a)})'>
 
-       ${exists?"[ ✓ AÑADIDO ]":"[ + AÑADIR ]"}
+       ${exists?`[ ✓ ${t("added")} ]`:`[ + ${t("add")} ]`}
 
      </button>
 
@@ -1159,9 +1178,9 @@ function openActivities(category){
 
  `<div style="margin-top:15px">
  <input id="customActivity"
- placeholder="Agregar algo que no está aquí...">
+ placeholder="Agregar algo que no está aquí..." data-placeholder="custom_placeholder">
  <button class="add" onclick="addCustom()">
- [ AGREGAR ]
+ <span data-i18n="add_button">[ AGREGAR ]</span>
  </button>
  </div>`;
 }
@@ -1190,13 +1209,8 @@ function toggleActivity(a){
  save();
 
  /* refrescar el modal */
- const title=document.getElementById("activityTitle").textContent
- .replace("// ","")
- .replace(/_/g," ");
-
- const category=Object.keys(activities).find(c=>
-   c.toUpperCase()===title
- );
+ const title=document.getElementById("activityTitle").dataset.category || "";
+ const category=Object.keys(activities).find(c=>c===title);
 
  if(category) openActivities(category);
 
@@ -1241,16 +1255,16 @@ function renderCollection(){
 
     <div class="pic">${unlocked?(a.img?`<img src="${a.img}" style="width:100%;height:100%;object-fit:contain">`:a.icon):"?"}</div>
 
-     <div class="name">${a.name}</div>
+     <div class="name">${avatarDisplayName(a.name)}</div>
 
      ${
        unlocked
        ?
        `<div class="use">
-       ${current?"[ ACTIVO ]":
+       ${current?`[ ${t("active")} ]`:
        `<button onclick="useAvatar('${a.id}')"
        style="background:#000;color:var(--green);border:0">
-       [ USAR ]
+       [ ${t("use")} ]
        </button>`}
        </div>`
        :
@@ -1276,7 +1290,7 @@ function checkUnlocks(){
      state.unlocked.push(a.id);
      if(a.cost>0){
        state.recent.unshift({
-         text:"¡DESBLOQUEASTE "+a.name+"!",
+         text:t("unlocked")+" "+avatarDisplayName(a.name)+"!",
          xp:0,
          points:0,
          time:new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})
@@ -1372,12 +1386,9 @@ function renderVapeStats(){
  const hourCounts=Array(24).fill(0);
  todayList.forEach(ts=>{hourCounts[new Date(ts).getHours()]++;});
  const hourly=hourCounts.map((n,h)=>({n,h})).filter(x=>x.n>0)
-   .map(x=>`${String(x.h).padStart(2,"0")}:00 → ${x.n} calada${x.n===1?"":"s"}`).join("<br>") || "Todavía no hay caladas hoy.";
- const start7=new Date(now);
- start7.setHours(0,0,0,0);
- start7.setDate(start7.getDate()-6);
- let weekTotal=0;
- const weekRows=[];
+   .map(x=>`${String(x.h).padStart(2,"0")}:00 → ${x.n} ${hitWord(x.n)}`).join("<br>") || t("no_hits_today");
+ const start7=new Date(now); start7.setHours(0,0,0,0); start7.setDate(start7.getDate()-6);
+ let weekTotal=0; const weekRows=[];
  for(let i=0;i<7;i++){
    const d=new Date(start7); d.setDate(start7.getDate()+i);
    const k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
@@ -1391,10 +1402,10 @@ function renderVapeStats(){
    monthlyTotal+=total; monthlyRows.push(`${prefix} → ${total}`);
  }
  document.getElementById("vapeStats").innerHTML=
-   `<b>POR HORA — HOY</b><br>${hourly}<br><br>`+
-   `<b>ÚLTIMOS 7 DÍAS</b><br>TOTAL: ${weekTotal}<br>PROMEDIO: ${(weekTotal/7).toFixed(1)}/día<br>${weekRows.join("<br>")}<br><br>`+
-   `<b>ÚLTIMOS 6 MESES</b><br>${monthlyRows.join("<br>")}<br><br>`+
-   `<span class="small">TOTAL 6 MESES: ${monthlyTotal}</span>`;
+   `<b>${t("per_hour_today")}</b><br>${hourly}<br><br>`+
+   `<b>${t("last_7_days")}</b><br>${t("total")}: ${weekTotal}<br>${t("average")}: ${(weekTotal/7).toFixed(1)}/${t("day")}<br>${weekRows.join("<br>")}<br><br>`+
+   `<b>${t("last_6_months")}</b><br>${monthlyRows.join("<br")}<br><br>`+
+   `<span class="small">${t("total_6_months")}: ${monthlyTotal}</span>`;
 }
 
 /* ================= REGISTRO ================= */
@@ -1421,7 +1432,7 @@ function saveJournal(){
 
  save();
 
- alert("Registro guardado.");
+ alert(t("saved_record"));
 }
 
 function loadJournal(){
@@ -1468,7 +1479,7 @@ function renderRecent(){
  const box=document.getElementById("recent");
 
  if(!state.recent.length){
-   box.textContent="Todavía no hay actividad.";
+   box.textContent=t("no_activity");
    return;
  }
 
@@ -1477,7 +1488,7 @@ function renderRecent(){
  .map(r=>
  `<div style="margin-bottom:8px">
  [${r.time}] <span style="color:var(--green)">✓</span>
- ${escapeHTML(r.text)}
+ ${escapeHTML(activityDisplayName(r.text))}
  ${r.xp?` <span style="color:var(--green)">+${r.xp} XP</span>`:""}
  ${r.points?` <span style="color:var(--red)">+${r.points}</span>`:""}
  </div>`
@@ -1535,7 +1546,7 @@ function updateClock(){
  const d=new Date();
 
  document.getElementById("date").textContent=
- d.toLocaleDateString("es-ES",{
+ d.toLocaleDateString(state.lang==="en"?"en-US":"es-ES",{
    weekday:"short",
    day:"2-digit",
    month:"short",
@@ -1579,9 +1590,75 @@ function escapeHTML(str){
 }
 
 
+/* ================= IDIOMA ================= */
+
+const translations={
+ es:{
+  system:"// DISCIPLINA_ES_LIBERTAD",tab_today:"[ 01_HOY ]",tab_vape:"[ 02_VAPE ]",tab_record:"[ 03_REGISTRO ]",tab_collection:"[ 04_COLECCION ]",
+  user:"USUARIO",level:"NIVEL",motto:'"Desde abajo también se avanza."',points:"PUNTOS:",stats:"ESTADÍSTICAS",completed:"OBJETIVOS COMPLETADOS",total_xp:"XP TOTAL",hits_today:"CALADAS HOY",
+  system_message:"MENSAJE_DEL_SISTEMA",today_goals:"OBJETIVOS_DE_HOY",choose_goals:"[ + ELEGIR OBJETIVOS ]",reset_day:"[ RESET DEL DÍA ]",today_did:"HOY_HICE...",save:"[ GUARDAR ]",recent_activity:"ACTIVIDAD_RECIENTE",collection:"COLECCIÓN",phrase:"FRASE_DEL_DÍA",
+  daily_phrase:'"Un día a la vez,<br>también es una estrategia."',vape_today:"VAPE // HOY",hits_recorded:"CALADAS REGISTRADAS",register_hit:"[ 💨 REGISTRAR UNA CALADA ]",undo_last:"[ DESHACER ÚLTIMA ]",vape_record:"REGISTRO_VAPE",last_hit:"ÚLTIMA CALADA",best_interval:"MEJOR INTERVALO",history:"HISTORIAL",vape_stats:"ESTADÍSTICAS_VAPE",
+  how_feel:"¿CÓMO_TE_SENTISTE?",save_record:"[ GUARDAR REGISTRO ]",my_collection:"MI_COLECCIÓN",collection_help:"Completa objetivos para ganar puntos y desbloquear nuevos avatares.",select_category:"SELECCIONA_CATEGORÍA",activities:"ACTIVIDADES",
+  no_goals:"> No hay objetivos seleccionados.",you_decide:"> Tú decides qué quieres intentar hoy.",no_activity:"Todavía no hay actividad.",no_hits_today:"Todavía no hay caladas hoy.",activities_count:"actividades",points_word:"puntos",added:"AÑADIDO",add:"AÑADIR",add_button:"[ AGREGAR ]",active:"ACTIVO",use:"USAR",unlocked:"¡DESBLOQUEASTE",saved_record:"Registro guardado.",per_hour_today:"POR HORA — HOY",last_7_days:"ÚLTIMOS 7 DÍAS",total:"TOTAL",average:"PROMEDIO",day:"día",last_6_months:"ÚLTIMOS 6 MESES",total_6_months:"TOTAL 6 MESES",
+  spontaneous_placeholder:"Algo que hiciste y no estaba planeado...",journal_placeholder:"Escribe cómo te sentiste...",custom_placeholder:"Agregar algo que no está aquí...",motto2:"— MI RPG",reset_confirm:"¿Seguro que quieres reiniciar el día? Esto borra solo los objetivos de HOY. Tu XP, puntos, avatares y vape se mantienen.",
+  terminal1:"> Las cosas no se hacen solas.<br>",terminal2:"> Marca un objetivo y empieza.<br><br>"
+ },
+ en:{
+  system:"// DISCIPLINE_IS_FREEDOM",tab_today:"[ 01_TODAY ]",tab_vape:"[ 02_VAPE ]",tab_record:"[ 03_LOG ]",tab_collection:"[ 04_COLLECTION ]",
+  user:"USER",level:"LEVEL",motto:'"You move forward even from below."',points:"POINTS:",stats:"STATS",completed:"GOALS COMPLETED",total_xp:"TOTAL XP",hits_today:"HITS TODAY",
+  system_message:"SYSTEM_MESSAGE",today_goals:"TODAY_GOALS",choose_goals:"[ + CHOOSE GOALS ]",reset_day:"[ RESET DAY ]",today_did:"TODAY_I_DID...",save:"[ SAVE ]",recent_activity:"RECENT_ACTIVITY",collection:"COLLECTION",phrase:"PHRASE_OF_THE_DAY",
+  daily_phrase:'"One day at a time,<br>is also a strategy."',vape_today:"VAPE // TODAY",hits_recorded:"HITS RECORDED",register_hit:"[ 💨 LOG ONE HIT ]",undo_last:"[ UNDO LAST ]",vape_record:"VAPE_LOG",last_hit:"LAST HIT",best_interval:"BEST INTERVAL",history:"HISTORY",vape_stats:"VAPE_STATS",
+  how_feel:"HOW_DID_YOU_FEEL?",save_record:"[ SAVE LOG ]",my_collection:"MY_COLLECTION",collection_help:"Complete goals to earn points and unlock new avatars.",select_category:"SELECT_CATEGORY",activities:"ACTIVITIES",
+  no_goals:"> No goals selected.",you_decide:"> You decide what you want to try today.",no_activity:"No activity yet.",no_hits_today:"No hits recorded today yet.",activities_count:"activities",points_word:"points",added:"ADDED",add:"ADD",add_button:"[ ADD ]",active:"ACTIVE",use:"USE",unlocked:"UNLOCKED",saved_record:"Log saved.",per_hour_today:"PER HOUR — TODAY",last_7_days:"LAST 7 DAYS",total:"TOTAL",average:"AVERAGE",day:"day",last_6_months:"LAST 6 MONTHS",total_6_months:"TOTAL 6 MONTHS",
+  spontaneous_placeholder:"Something you did that wasn't planned...",journal_placeholder:"Write how you felt...",custom_placeholder:"Add something that's not here...",motto2:"— MI RPG",reset_confirm:"Are you sure you want to reset the day? This only deletes TODAY's goals. Your XP, points, avatars, and vape log stay.",
+  terminal1:"> Things don't do themselves.<br>",terminal2:"> Mark a goal and start.<br><br>"
+ }
+};
+
+const categoryTranslations={
+ "Música":"Music","Cianotipia":"Cyanotype","Linograbado":"Linocut","Camisas / estampado":"Shirts / Printing","Ejercicio":"Exercise","Aprendizaje":"Learning","Casa / organización":"Home / Organization"
+};
+
+const avatarTranslations={"CUCARACHA":"COCKROACH","CARACOL":"SNAIL","RATÓN":"MOUSE","PINGÜINO":"PENGUIN","GATO":"CAT","ZORRO":"FOX","MAPACHE":"RACCOON","COQUÍ":"COQUÍ"};
+
+const activityTranslations={
+ "Montar la mesa / espacio para música":"Set up the music desk / space","Conectar todo":"Connect everything","Preparar la PC":"Set up the PC","Aprender Moises AI":"Learn Moises AI","Darle estructura a una idea o canción":"Structure an idea or song","Grabar U-Bass":"Record U-Bass","Grabar guitarlele":"Record guitarlele","Grabar ukelele":"Record ukulele","Grabar voz":"Record vocals","Experimentar con instrumentos":"Experiment with instruments","Guardar la grabación":"Save the recording","Escuchar la grabación":"Listen to the recording","Enviar la grabación a otras personas":"Send the recording to other people",
+ "Hacer el negativo":"Make the negative","Pasar las emulsiones":"Apply the emulsions","Hacer prueba de exposición":"Do an exposure test","Exponer":"Expose","Lavar":"Wash","Hacer el acabado":"Finish it","Ver cómo quedó":"See how it turned out","Evaluar si sirve para estampar una camisa":"Evaluate whether it works for printing a shirt",
+ "Imprimir en back release de sticker":"Print on sticker back release","Hacer transferencia al bloque":"Transfer to the block","Pasar la tinta":"Apply the ink","Hacer pruebas de impresión":"Make test prints",
+ "Preparar dimensiones de la camisa":"Prepare shirt dimensions","Poner la emulsión":"Apply the emulsion","Dejar secar":"Let it dry","Poner en la lámpara":"Put it under the lamp","Limpiarla":"Clean it","Ver cómo quedó":"See how it turned out",
+ "Salir de casa":"Leave the house","Ir al gimnasio":"Go to the gym","Entrenar hasta 20 minutos":"Work out for up to 20 minutes","Usar máquinas del gimnasio":"Use gym machines","Hacer plank en casa":"Do a plank at home","Registrar cómo me sentí":"Log how I felt",
+ "Aprender inglés":"Learn English","Aprender algo de música":"Learn something about music","Aprender linograbado":"Learn linocut","Aprender cianotipia":"Learn cyanotype",
+ "Organizar materiales de arte":"Organize art materials","Organizar dónde guardo el arte":"Organize where I store my art","Ordenar herramientas":"Organize tools","Organizar el espacio de trabajo":"Organize the workspace","Ordenar una zona de la casa":"Organize an area of the house","Limpiar una zona":"Clean an area","Hacer algo pendiente de la casa":"Do a pending household task"
+};
+
+function t(key){ return (translations[state.lang]||translations.es)[key] ?? key; }
+function categoryDisplayName(c){ return state.lang==="en" ? (categoryTranslations[c]||c) : c; }
+function avatarDisplayName(n){ return state.lang==="en" ? (avatarTranslations[n]||n) : n; }
+function activityDisplayName(n){ return state.lang==="en" ? (activityTranslations[n]||n) : n; }
+function hitWord(n){ return state.lang==="en" ? (n===1?"hit":"hits") : (n===1?"calada":"caladas"); }
+
+function applyLanguage(){
+ document.documentElement.lang=state.lang;
+ document.querySelectorAll("[data-i18n]").forEach(el=>el.innerHTML=t(el.dataset.i18n));
+ document.querySelectorAll("[data-placeholder]").forEach(el=>el.placeholder=t(el.dataset.placeholder));
+ const msg=document.getElementById("systemMessage");
+ if(msg)msg.innerHTML=t("terminal1")+t("terminal2")+'<span class="cursor"></span>';
+ document.getElementById("lang-es").classList.toggle("active",state.lang==="es");
+ document.getElementById("lang-en").classList.toggle("active",state.lang==="en");
+ document.getElementById("avatarName").textContent=avatarDisplayName((avatars.find(a=>a.id===state.avatar)||avatars[0]).name);
+}
+
+function setLanguage(lang){
+ state.lang=lang==="en"?"en":"es";
+ save();
+ applyLanguage();
+ renderAll();
+}
+
 /* ================= TODO ================= */
 
 function renderAll(){
+ applyLanguage();
  checkUnlocks();
  renderProfile();
  renderGoals();
@@ -1597,6 +1674,12 @@ function renderAll(){
 /* ================= ARRANQUE ================= */
 
 renderAll();
+
+if ("serviceWorker" in navigator) {
+ window.addEventListener("load",()=>{
+  navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
+ });
+}
 
 </script>
 

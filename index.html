@@ -2,545 +2,493 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#f6f7f9">
-<title>Mi RPG</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050505">
+<title>MI RPG //</title>
 
 <style>
 :root{
-  --bg:#f6f7f9;
-  --card:#ffffff;
-  --text:#20242a;
-  --muted:#7b818a;
-  --line:#e6e8ec;
-  --accent:#4f9da6;
-  --accent-soft:#e7f4f5;
-  --green:#54a878;
-  --green-soft:#e8f5ed;
-  --danger:#d96b7b;
-  --danger-soft:#fcebed;
-  --shadow:0 3px 15px rgba(20,30,40,.06);
+  --black:#050505;
+  --panel:#090909;
+  --panel2:#0d0d0d;
+  --white:#f2f2f2;
+  --gray:#8b8b8b;
+  --line:#303030;
+  --green:#39ff68;
+  --red:#ff3b4f;
+  --yellow:#d8ff39;
 }
 
 *{box-sizing:border-box}
 
 body{
   margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:var(--black);
+  color:var(--white);
+  font-family:"Courier New",Consolas,monospace;
 }
 
-button,input,textarea{font:inherit}
+button,input,textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
 
 .app{
-  width:min(720px,100%);
+  max-width:1500px;
   margin:auto;
-  padding:24px 18px 70px;
+  padding:18px;
 }
 
 /* HEADER */
 
-header{
+.header{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  margin-bottom:22px;
+  align-items:flex-start;
+  border-bottom:1px solid var(--line);
+  padding-bottom:14px;
+  margin-bottom:10px;
 }
 
 .logo{
-  font-size:22px;
-  font-weight:800;
-  letter-spacing:-.4px;
+  font-size:28px;
+  font-weight:bold;
+  letter-spacing:2px;
 }
 
-.date{
+.logo span{color:var(--red)}
+
+.system{
+  color:var(--green);
   font-size:13px;
-  color:var(--muted);
-  margin-top:3px;
 }
 
-/* PROFILE */
-
-.profile{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:20px;
-  padding:18px;
-  display:flex;
-  align-items:center;
-  gap:15px;
-  box-shadow:var(--shadow);
-  margin-bottom:18px;
-}
-
-.avatar{
-  width:58px;
-  height:58px;
-  border-radius:18px;
-  background:var(--accent-soft);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-}
-
-.profile-info{flex:1}
-
-.level{
+.clock{
+  text-align:right;
+  color:var(--gray);
   font-size:13px;
-  font-weight:800;
-  color:var(--accent);
 }
 
-.xp{
-  font-size:13px;
-  color:var(--muted);
-  margin-top:2px;
-}
-
-.progress{
-  height:7px;
-  background:#eceef1;
-  border-radius:20px;
-  overflow:hidden;
-  margin-top:9px;
-}
-
-.progress-fill{
-  height:100%;
-  background:var(--accent);
-  width:0%;
-  transition:.3s;
-}
-
-/* TOP NAV */
+/* NAV */
 
 .nav{
   display:flex;
-  gap:7px;
-  margin-bottom:18px;
+  gap:8px;
+  overflow-x:auto;
+  border-bottom:1px solid var(--line);
+  padding:8px 0;
+  margin-bottom:16px;
 }
 
 .nav button{
-  border:1px solid var(--line);
-  background:var(--card);
-  color:var(--muted);
-  border-radius:12px;
-  padding:9px 14px;
-  cursor:pointer;
+  background:transparent;
+  color:var(--white);
+  border:1px solid transparent;
+  padding:8px 14px;
+  white-space:nowrap;
 }
 
+.nav button:hover,
 .nav button.active{
-  background:var(--text);
-  color:white;
-  border-color:var(--text);
+  border-color:var(--green);
+  color:var(--green);
 }
 
-/* CARDS */
+/* GRID */
 
-.card{
-  background:var(--card);
+.grid{
+  display:grid;
+  grid-template-columns:300px 1fr 350px;
+  gap:14px;
+}
+
+.column{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+/* PANELS */
+
+.panel{
+  background:var(--panel);
   border:1px solid var(--line);
-  border-radius:18px;
-  padding:18px;
+  padding:16px;
+}
+
+.panel-title{
+  color:var(--gray);
+  border-bottom:1px solid var(--line);
+  padding-bottom:9px;
   margin-bottom:14px;
-  box-shadow:var(--shadow);
+  font-size:14px;
 }
 
-.card-title{
-  font-size:17px;
-  font-weight:800;
+.panel-title::before{
+  content:"// ";
+  color:var(--green);
 }
 
-.card-subtitle{
-  font-size:13px;
-  color:var(--muted);
-  margin-top:3px;
-  margin-bottom:15px;
+.avatar-box{
+  display:flex;
+  gap:14px;
+  align-items:center;
 }
 
-/* TODAY */
-
-.empty{
-  text-align:center;
-  padding:28px 12px;
-  color:var(--muted);
+.avatar{
+  width:125px;
+  height:125px;
+  border:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:70px;
+  background:#000;
 }
 
-.empty-icon{
-  font-size:32px;
+.avatar-name{
+  color:var(--red);
+  font-size:19px;
+  margin-bottom:8px;
+}
+
+.small{
+  color:var(--gray);
+  font-size:12px;
+}
+
+/* XP */
+
+.level{
+  color:var(--red);
+  font-size:22px;
   margin-bottom:7px;
 }
 
+.xptext{
+  margin-bottom:6px;
+}
+
+.bar{
+  height:15px;
+  border:1px solid #555;
+  background:#111;
+  overflow:hidden;
+}
+
+.bar div{
+  height:100%;
+  background:var(--green);
+  width:0%;
+}
+
+.points{
+  color:var(--green);
+  font-size:20px;
+  margin-top:13px;
+}
+
+/* GOALS */
+
 .goal{
+  display:grid;
+  grid-template-columns:30px 1fr auto;
+  gap:10px;
+  align-items:center;
+  border-bottom:1px solid #202020;
+  padding:11px 0;
+}
+
+.goal:last-child{border-bottom:0}
+
+.goal-check{
+  width:22px;
+  height:22px;
+  border:1px solid var(--gray);
+  background:#000;
+  color:var(--green);
   display:flex;
   align-items:center;
-  gap:11px;
-  padding:13px 0;
-  border-bottom:1px solid var(--line);
+  justify-content:center;
 }
 
-.goal:last-child{
-  border-bottom:0;
-}
-
-.check{
-  width:28px;
-  height:28px;
-  border:2px solid #cbd0d6;
-  border-radius:9px;
-  background:white;
-  cursor:pointer;
-  flex-shrink:0;
-}
-
-.goal.done .check{
-  background:var(--green);
+.goal.done .goal-check{
   border-color:var(--green);
-  color:white;
 }
 
 .goal.done .goal-name{
   text-decoration:line-through;
-  color:var(--muted);
+  color:#777;
 }
 
-.goal-info{flex:1}
-
-.goal-name{
-  font-size:14px;
-  font-weight:650;
-}
-
-.goal-category{
-  font-size:11px;
-  color:var(--muted);
-  margin-top:2px;
-}
-
-.goal-xp{
+.reward{
+  color:var(--green);
+  white-space:nowrap;
   font-size:12px;
-  color:var(--accent);
-  font-weight:800;
 }
 
-/* BUTTON */
+.reward span{
+  color:var(--red);
+}
 
-.primary{
+.add{
   width:100%;
-  border:0;
-  background:var(--text);
-  color:white;
-  border-radius:13px;
-  padding:13px;
-  cursor:pointer;
-  font-weight:750;
+  margin-top:13px;
+  background:#000;
+  color:var(--green);
+  border:1px solid var(--green);
+  padding:11px;
 }
 
-.secondary{
-  border:1px solid var(--line);
-  background:white;
-  color:var(--text);
-  border-radius:12px;
-  padding:10px 13px;
-  cursor:pointer;
+.add:hover{
+  background:var(--green);
+  color:#000;
 }
 
-/* CATEGORY PICKER */
+/* CATEGORIES */
 
-.category-grid{
+.categories{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
 }
 
 .category{
+  background:#000;
+  color:var(--white);
   border:1px solid var(--line);
-  background:white;
-  border-radius:14px;
-  padding:14px;
+  padding:14px 10px;
   text-align:left;
-  cursor:pointer;
 }
 
 .category:hover{
-  border-color:var(--accent);
+  border-color:var(--green);
+  color:var(--green);
 }
 
-.category-icon{
-  font-size:22px;
-}
-
-.category-name{
-  font-weight:750;
-  margin-top:5px;
-}
-
-.category-count{
-  font-size:11px;
-  color:var(--muted);
-}
-
-/* LIBRARY */
-
-.library-item{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:11px 0;
-  border-bottom:1px solid var(--line);
-}
-
-.library-item:last-child{
-  border-bottom:0;
-}
-
-.library-check{
-  width:23px;
-  height:23px;
-  border:2px solid #ccd1d7;
-  border-radius:7px;
-  background:white;
-  cursor:pointer;
-}
-
-.library-check.selected{
-  background:var(--accent);
-  border-color:var(--accent);
-  color:white;
-}
-
-.library-info{flex:1}
-
-.library-name{
-  font-size:13px;
-  font-weight:650;
-}
-
-.library-xp{
-  font-size:11px;
-  color:var(--accent);
-}
-
-/* ADD CUSTOM */
-
-.add-row{
-  display:flex;
-  gap:8px;
-  margin-top:13px;
-}
-
-.add-row input{
-  flex:1;
-  min-width:0;
-  border:1px solid var(--line);
-  border-radius:11px;
-  padding:11px;
-  outline:none;
-}
-
-.add-row input:focus{
-  border-color:var(--accent);
-}
-
-/* VAPE */
-
-.vape{
-  text-align:center;
-}
-
-.vape-number{
-  font-size:70px;
-  line-height:1;
-  font-weight:850;
-  margin:18px 0 3px;
-}
-
-.vape-label{
-  color:var(--muted);
-  font-size:13px;
-  margin-bottom:20px;
-}
-
-.vape-button{
-  width:100%;
-  border:0;
-  border-radius:17px;
-  background:var(--danger-soft);
-  color:var(--danger);
-  padding:18px;
-  font-weight:850;
-  font-size:17px;
-  cursor:pointer;
-}
-
-.vape-button:active{
-  transform:scale(.98);
-}
-
-.undo{
-  margin-top:10px;
-  background:none;
-  border:0;
-  color:var(--muted);
-  font-size:12px;
-  cursor:pointer;
-}
-
-.vape-stats{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:8px;
-  margin-top:20px;
-}
-
-.vape-stat{
-  background:var(--bg);
-  border-radius:12px;
-  padding:11px 5px;
-}
-
-.vape-stat strong{
+.category b{
   display:block;
-  font-size:17px;
+  margin-bottom:5px;
 }
 
-.vape-stat span{
-  font-size:10px;
-  color:var(--muted);
+.category small{
+  color:var(--gray);
 }
 
-/* JOURNAL */
+/* COLLECTION */
 
-textarea{
-  width:100%;
-  min-height:150px;
-  resize:vertical;
-  border:1px solid var(--line);
-  border-radius:13px;
-  padding:13px;
-  background:white;
-  outline:none;
-}
-
-.moods{
-  display:flex;
-  gap:7px;
-  flex-wrap:wrap;
-  margin-bottom:12px;
-}
-
-.mood{
-  border:1px solid var(--line);
-  background:white;
-  border-radius:11px;
-  padding:8px 11px;
-  cursor:pointer;
-}
-
-.mood.selected{
-  background:var(--accent-soft);
-  border-color:var(--accent);
-}
-
-/* STATS */
-
-.stats{
+.collection{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:8px;
 }
 
-.stat{
-  background:var(--bg);
-  border-radius:13px;
-  padding:14px 5px;
+.avatar-card{
+  min-height:125px;
+  background:#000;
+  border:1px solid var(--line);
+  padding:9px;
   text-align:center;
+  position:relative;
 }
 
-.stat-number{
-  font-size:21px;
-  font-weight:850;
+.avatar-card.unlocked{
+  border-color:var(--green);
 }
 
-.stat-label{
+.avatar-card.current{
+  box-shadow:0 0 10px rgba(57,255,104,.2);
+}
+
+.avatar-card .pic{
+  font-size:48px;
+  height:65px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.avatar-card .name{
+  font-size:11px;
+}
+
+.lock{
+  color:var(--red);
+  font-size:11px;
+  margin-top:5px;
+}
+
+.use{
+  color:var(--green);
   font-size:10px;
-  color:var(--muted);
+  margin-top:5px;
+}
+
+/* JOURNAL */
+
+textarea,input{
+  width:100%;
+  background:#000;
+  color:var(--white);
+  border:1px solid var(--line);
+  padding:11px;
+  outline:none;
+}
+
+textarea:focus,input:focus{
+  border-color:var(--green);
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+.save{
+  margin-top:8px;
+  background:#000;
+  color:var(--green);
+  border:1px solid var(--green);
+  padding:9px 15px;
+}
+
+.moods{
+  display:flex;
+  gap:5px;
+  flex-wrap:wrap;
+  margin-bottom:10px;
+}
+
+.moods button{
+  background:#000;
+  border:1px solid var(--line);
+  padding:8px;
+}
+
+.moods button.selected{
+  border-color:var(--green);
+}
+
+/* VAPE */
+
+.vape-count{
+  font-size:60px;
+  color:var(--red);
+}
+
+.vape-button{
+  width:100%;
+  background:var(--red);
+  color:#000;
+  border:0;
+  padding:16px;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+.undo{
+  width:100%;
+  margin-top:7px;
+  background:#000;
+  color:var(--gray);
+  border:1px solid var(--line);
+  padding:8px;
+}
+
+/* SYSTEM MESSAGE */
+
+.terminal{
+  color:var(--green);
+  line-height:1.7;
+  min-height:100px;
+}
+
+.cursor{
+  display:inline-block;
+  width:9px;
+  height:15px;
+  background:var(--green);
 }
 
 /* MODAL */
 
-.modal{
+.modal-bg{
   position:fixed;
   inset:0;
-  background:rgba(20,25,30,.42);
+  background:rgba(0,0,0,.88);
   display:none;
-  align-items:flex-end;
+  align-items:center;
   justify-content:center;
   z-index:20;
-}
-
-.modal.show{
-  display:flex;
-}
-
-.modal-box{
-  background:white;
-  width:min(720px,100%);
-  max-height:88vh;
-  overflow:auto;
-  border-radius:22px 22px 0 0;
   padding:20px;
 }
 
-.modal-header{
+.modal-bg.show{
+  display:flex;
+}
+
+.modal{
+  width:min(700px,100%);
+  max-height:85vh;
+  overflow:auto;
+  background:#080808;
+  border:1px solid var(--green);
+  padding:20px;
+}
+
+.modal h2{
+  margin-top:0;
+  color:var(--green);
+}
+
+.activity{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  margin-bottom:16px;
+  gap:10px;
+  padding:12px 0;
+  border-bottom:1px solid #222;
+}
+
+.activity button{
+  background:#000;
+  border:1px solid var(--line);
+  color:var(--white);
+  padding:7px 10px;
+}
+
+.activity button.selected{
+  border-color:var(--green);
+  color:var(--green);
 }
 
 .close{
-  border:0;
-  background:var(--bg);
-  border-radius:10px;
-  width:34px;
-  height:34px;
-  cursor:pointer;
+  float:right;
+  background:#000;
+  border:1px solid var(--red);
+  color:var(--red);
+  padding:5px 10px;
 }
 
-/* TOAST */
+/* RESPONSIVE */
 
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:22px;
-  transform:translate(-50%,100px);
-  background:var(--text);
-  color:white;
-  padding:11px 17px;
-  border-radius:12px;
-  font-size:13px;
-  font-weight:700;
-  transition:.25s;
-  z-index:50;
-}
-
-.toast.show{
-  transform:translate(-50%,0);
-}
-
-/* MOBILE */
-
-@media(max-width:520px){
-  .app{
-    padding:18px 13px 60px;
-  }
-
-  .category-grid{
+@media(max-width:1100px){
+  .grid{
     grid-template-columns:1fr 1fr;
   }
+  .column:last-child{
+    grid-column:1/-1;
+  }
+}
+
+@media(max-width:700px){
+  .app{padding:10px}
+  .grid{grid-template-columns:1fr}
+  .categories{grid-template-columns:1fr}
+  .collection{grid-template-columns:repeat(2,1fr)}
+  .header{gap:10px}
 }
 </style>
 </head>
@@ -549,995 +497,1003 @@ textarea{
 
 <div class="app">
 
-<header>
+<header class="header">
   <div>
-    <div class="logo">MI RPG</div>
-    <div class="date" id="date"></div>
+    <div class="logo">MI RPG<span>//</span></div>
+    <div class="system">// DISCIPLINA_ES_LIBERTAD</div>
+  </div>
+
+  <div class="clock">
+    <div id="date"></div>
+    <div id="time"></div>
   </div>
 </header>
 
-<div class="profile">
-  <div class="avatar" id="avatar">🐧</div>
-
-  <div class="profile-info">
-    <div class="level" id="level">NIVEL 1</div>
-    <div class="xp"><span id="xp">0</span> XP</div>
-
-    <div class="progress">
-      <div class="progress-fill" id="progress"></div>
-    </div>
-  </div>
-</div>
-
-<div class="nav">
-  <button class="active" onclick="tab('today',this)">Hoy</button>
-  <button onclick="tab('vape',this)">Vape</button>
-  <button onclick="tab('journal',this)">Registro</button>
-</div>
-
+<nav class="nav">
+  <button class="active" onclick="showTab('hoy',this)">[ 01_HOY ]</button>
+  <button onclick="showTab('vape',this)">[ 02_VAPE ]</button>
+  <button onclick="showTab('registro',this)">[ 03_REGISTRO ]</button>
+  <button onclick="showTab('coleccion',this)">[ 04_COLECCION ]</button>
+</nav>
 
 <!-- ================= HOY ================= -->
 
-<div id="today">
+<section id="tab-hoy">
 
-  <div class="card">
+<div class="grid">
 
-    <div class="card-title">Mis objetivos de hoy</div>
+<!-- LEFT -->
 
-    <div class="card-subtitle">
-      Tú decides qué quieres intentar hoy.
-    </div>
+<div class="column">
 
-    <div id="todayGoals"></div>
+<div class="panel">
+<div class="panel-title">USUARIO</div>
 
-    <button class="primary" onclick="openCategories()">
-      ＋ Elegir objetivos
-    </button>
+<div class="avatar-box">
+  <div class="avatar" id="mainAvatar">🪳</div>
 
+  <div>
+    <div class="level">NIVEL <span id="level">1</span></div>
+    <div id="avatarName" class="avatar-name">CUCARACHA</div>
+    <div class="small">"Desde abajo también se avanza."</div>
+  </div>
+</div>
+
+<div style="margin-top:15px">
+  <div class="xptext">
+    XP: <span id="xp">0</span> / 100
   </div>
 
-
-  <div class="card">
-
-    <div class="card-title">✨ Hoy hice...</div>
-
-    <div class="card-subtitle">
-      Algo que no estaba planeado también cuenta.
-    </div>
-
-    <textarea id="spontaneous"
-      placeholder="Hoy me senté y terminé haciendo..."></textarea>
-
-    <button class="secondary"
-      style="margin-top:9px"
-      onclick="saveSpontaneous()">
-      Guardar
-    </button>
-
+  <div class="bar">
+    <div id="xpbar"></div>
   </div>
+
+  <div class="points">
+    PUNTOS: <span id="points">0</span>
+  </div>
+</div>
 
 </div>
+
+<div class="panel">
+<div class="panel-title">ESTADÍSTICAS</div>
+
+<div class="small">OBJETIVOS COMPLETADOS</div>
+<div style="color:var(--green);font-size:22px;margin:6px 0 15px" id="completedTotal">0</div>
+
+<div class="small">XP TOTAL</div>
+<div style="color:var(--green);font-size:22px;margin:6px 0 15px" id="totalXP">0</div>
+
+<div class="small">CALADAS HOY</div>
+<div style="color:var(--red);font-size:22px;margin-top:6px" id="usesStat">0</div>
+</div>
+
+<div class="panel">
+<div class="panel-title">MENSAJE_DEL_SISTEMA</div>
+
+<div class="terminal">
+&gt; Las cosas no se hacen solas.<br>
+&gt; Marca un objetivo y empieza.<br><br>
+<span class="cursor"></span>
+</div>
+</div>
+
+</div>
+
+<!-- CENTER -->
+
+<div class="column">
+
+<div class="panel">
+
+<div class="panel-title">OBJETIVOS_DE_HOY</div>
+
+<div id="goals"></div>
+
+<button class="add" onclick="openCategories()">
+[ + ELEGIR OBJETIVOS ]
+</button>
+
+</div>
+
+<div class="panel">
+
+<div class="panel-title">HOY_HICE...</div>
+
+<textarea id="spontaneous" placeholder="Algo que hiciste y no estaba planeado..."></textarea>
+
+<button class="save" onclick="saveSpontaneous()">
+[ GUARDAR ]
+</button>
+
+</div>
+
+<div class="panel">
+
+<div class="panel-title">ACTIVIDAD_RECIENTE</div>
+<div id="recent" class="small">Todavía no hay actividad.</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT -->
+
+<div class="column">
+
+<div class="panel">
+
+<div class="panel-title">COLECCIÓN</div>
+
+<div class="collection" id="collection"></div>
+
+</div>
+
+<div class="panel">
+
+<div class="panel-title">FRASE_DEL_DÍA</div>
+
+<div style="line-height:1.7">
+"Un día a la vez,<br>
+también es una estrategia."
+</div>
+
+<div style="color:var(--green);margin-top:10px">
+— MI RPG
+</div>
+
+</div>
+
+</div>
+
+</div>
+</section>
 
 
 <!-- ================= VAPE ================= -->
 
-<div id="vape" style="display:none">
+<section id="tab-vape" style="display:none">
 
-  <div class="card vape">
+<div class="grid">
 
-    <div class="card-title">🚭 Vape</div>
+<div class="column">
 
-    <div class="card-subtitle">
-      Un toque en el botón = un registro.
-    </div>
+<div class="panel">
+<div class="panel-title">VAPE // HOY</div>
 
-    <div class="vape-number" id="vapeCount">0</div>
+<div class="vape-count" id="vapeCount">0</div>
+<div class="small">CALADAS REGISTRADAS</div>
 
-    <div class="vape-label">
-      usos registrados hoy
-    </div>
+<button class="vape-button" onclick="addVape()">
+[ 💨 REGISTRAR UNA CALADA ]
+</button>
 
-    <button class="vape-button" onclick="addVape()">
-      💨 Registrar una calada
-    </button>
-
-    <button class="undo" onclick="undoVape()">
-      Deshacer último registro
-    </button>
-
-    <div class="vape-stats">
-
-      <div class="vape-stat">
-        <strong id="lastVape">—</strong>
-        <span>último uso</span>
-      </div>
-
-      <div class="vape-stat">
-        <strong id="totalVape">0</strong>
-        <span>total registrado</span>
-      </div>
-
-      <div class="vape-stat">
-        <strong id="bestGap">—</strong>
-        <span>mejor intervalo</span>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="card">
-
-    <div class="card-title">Historial</div>
-
-    <div id="vapeHistory"></div>
-
-  </div>
+<button class="undo" onclick="undoVape()">
+[ DESHACER ÚLTIMA ]
+</button>
+</div>
 
 </div>
 
+<div class="column">
 
-<!-- ================= JOURNAL ================= -->
+<div class="panel">
+<div class="panel-title">REGISTRO_VAPE</div>
 
-<div id="journal" style="display:none">
+<div class="small">ÚLTIMA CALADA</div>
+<div id="lastVape" style="margin:7px 0 20px">—</div>
 
-  <div class="card">
+<div class="small">MEJOR INTERVALO</div>
+<div id="bestInterval" style="margin-top:7px">—</div>
+</div>
 
-    <div class="card-title">¿Cómo me sentí?</div>
+</div>
 
-    <div class="card-subtitle">
-      Registra lo que quieras recordar.
-    </div>
+<div class="column">
 
-    <div class="moods">
-
-      <button class="mood" onclick="mood(this,'😊 Bien')">😊</button>
-      <button class="mood" onclick="mood(this,'🙂 Bien')">🙂</button>
-      <button class="mood" onclick="mood(this,'😐 Normal')">😐</button>
-      <button class="mood" onclick="mood(this,'😞 Mal')">😞</button>
-      <button class="mood" onclick="mood(this,'😰 Ansioso')">😰</button>
-      <button class="mood" onclick="mood(this,'😴 Cansado')">😴</button>
-      <button class="mood" onclick="mood(this,'🎨 Creativo')">🎨</button>
-
-    </div>
-
-    <textarea id="journalText"
-      placeholder="Escribe aquí..."></textarea>
-
-    <button class="primary"
-      style="margin-top:10px"
-      onclick="saveJournal()">
-      Guardar registro
-    </button>
-
-  </div>
-
-
-  <div class="card">
-
-    <div class="card-title">Estadísticas</div>
-
-    <div class="stats">
-
-      <div class="stat">
-        <div class="stat-number" id="statCompleted">0</div>
-        <div class="stat-label">objetivos</div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-number" id="statXP">0</div>
-        <div class="stat-label">XP</div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-number" id="statVape">0</div>
-        <div class="stat-label">usos hoy</div>
-      </div>
-
-    </div>
-
-  </div>
+<div class="panel">
+<div class="panel-title">HISTORIAL</div>
+<div id="vapeHistory" class="small"></div>
+</div>
 
 </div>
 
 </div>
 
+</section>
 
-<!-- ================= SELECTOR ================= -->
 
-<div class="modal" id="categoryModal">
+<!-- ================= REGISTRO ================= -->
 
-  <div class="modal-box">
+<section id="tab-registro" style="display:none">
 
-    <div class="modal-header">
+<div class="grid">
 
-      <div>
-        <div class="card-title">Elegir objetivos</div>
-        <div class="card-subtitle" style="margin-bottom:0">
-          Elige solamente lo que quieres intentar hoy.
-        </div>
-      </div>
+<div class="column">
 
-      <button class="close" onclick="closeCategories()">×</button>
+<div class="panel">
 
-    </div>
+<div class="panel-title">¿CÓMO_TE_SENTISTE?</div>
 
-    <div class="category-grid" id="categories"></div>
+<div class="moods">
+<button onclick="setMood('😊',this)">😊</button>
+<button onclick="setMood('🙂',this)">🙂</button>
+<button onclick="setMood('😐',this)">😐</button>
+<button onclick="setMood('😞',this)">😞</button>
+<button onclick="setMood('😰',this)">😰</button>
+<button onclick="setMood('😴',this)">😴</button>
+<button onclick="setMood('🎨',this)">🎨</button>
+</div>
 
-  </div>
+<textarea id="journal" placeholder="Escribe cómo te sentiste..."></textarea>
+
+<button class="save" onclick="saveJournal()">
+[ GUARDAR REGISTRO ]
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= COLECCION ================= -->
+
+<section id="tab-coleccion" style="display:none">
+
+<div class="panel">
+
+<div class="panel-title">MI_COLECCIÓN</div>
+
+<p class="small">
+Completa objetivos para ganar puntos y desbloquear nuevos avatares.
+</p>
+
+<div class="collection" id="collectionBig"></div>
+
+</div>
+
+</section>
 
 </div>
 
 
-<!-- ================= ACTIVIDADES ================= -->
+<!-- ================= MODAL CATEGORIAS ================= -->
 
-<div class="modal" id="activityModal">
+<div class="modal-bg" id="categoryModal">
 
-  <div class="modal-box">
+<div class="modal">
 
-    <div class="modal-header">
+<button class="close" onclick="closeModal('categoryModal')">X</button>
 
-      <div>
-        <div class="card-title" id="activityTitle"></div>
-        <div class="card-subtitle" style="margin-bottom:0">
-          Toca las actividades que quieres añadir a tu día.
-        </div>
-      </div>
+<h2>SELECCIONA_CATEGORÍA</h2>
 
-      <button class="close" onclick="closeActivities()">×</button>
+<div id="categoryList" class="categories"></div>
 
-    </div>
-
-    <div id="activityList"></div>
-
-    <div class="add-row">
-
-      <input
-        id="customInput"
-        placeholder="Agregar algo que no está aquí...">
-
-      <button class="secondary"
-        onclick="addCustom()">
-        +
-      </button>
-
-    </div>
-
-  </div>
-
+</div>
 </div>
 
 
-<div class="toast" id="toast"></div>
+<!-- ================= MODAL ACTIVIDADES ================= -->
+
+<div class="modal-bg" id="activityModal">
+
+<div class="modal">
+
+<button class="close" onclick="closeModal('activityModal')">X</button>
+
+<h2 id="activityTitle">ACTIVIDADES</h2>
+
+<div id="activityList"></div>
+
+</div>
+</div>
 
 
 <script>
 
-/* =========================================
-   FECHA LOCAL
-========================================= */
+/* ================= DATOS ================= */
 
-function dateKey(date=new Date()){
-  const y=date.getFullYear();
-  const m=String(date.getMonth()+1).padStart(2,"0");
-  const d=String(date.getDate()).padStart(2,"0");
-  return `${y}-${m}-${d}`;
-}
+const activities={
 
-const today=dateKey();
+"Música":[
+["Montar la mesa / espacio para música",10,5],
+["Conectar todo",10,5],
+["Preparar la PC",10,5],
+["Aprender Moises AI",20,10],
+["Darle estructura a una idea o canción",20,10],
+["Grabar U-Bass",25,12],
+["Grabar guitarlele",25,12],
+["Grabar ukelele",25,12],
+["Grabar voz",25,12],
+["Experimentar con instrumentos",20,10],
+["Guardar la grabación",10,5],
+["Escuchar la grabación",15,8],
+["Enviar la grabación a otras personas",15,8]
+],
 
+"Cianotipia":[
+["Hacer el negativo",15,8],
+["Pasar las emulsiones",15,8],
+["Hacer prueba de exposición",15,8],
+["Exponer",15,8],
+["Lavar",10,5],
+["Hacer el acabado",15,8],
+["Ver cómo quedó",10,5],
+["Evaluar si sirve para estampar una camisa",15,8]
+],
 
-/* =========================================
-   BIBLIOTECA DE ACTIVIDADES
-========================================= */
+"Linograbado":[
+["Imprimir en back release de sticker",15,8],
+["Hacer transferencia al bloque",20,10],
+["Pasar la tinta",15,8],
+["Hacer pruebas de impresión",20,10]
+],
 
-const library={
+"Camisas / estampado":[
+["Preparar dimensiones de la camisa",15,8],
+["Poner la emulsión",15,8],
+["Dejar secar",10,5],
+["Poner en la lámpara",15,8],
+["Exponer",15,8],
+["Limpiarla",10,5],
+["Ver cómo quedó",10,5]
+],
 
-music:{
-  name:"Música",
-  icon:"🎵",
-  tasks:[
-    ["Montar la mesa / espacio para música",10],
-    ["Conectar todo",10],
-    ["Preparar la PC",10],
-    ["Aprender Moises AI",20],
-    ["Darle estructura a una idea o canción",20],
-    ["Grabar U-Bass",25],
-    ["Grabar guitarlele",25],
-    ["Grabar ukelele",25],
-    ["Grabar voz",25],
-    ["Experimentar con instrumentos",20],
-    ["Guardar la grabación",10],
-    ["Escuchar la grabación",15],
-    ["Enviar la grabación a otras personas",15]
-  ]
-},
+"Ejercicio":[
+["Salir de casa",10,5],
+["Ir al gimnasio",20,10],
+["Entrenar hasta 20 minutos",25,12],
+["Usar máquinas del gimnasio",20,10],
+["Hacer plank en casa",15,8],
+["Registrar cómo me sentí",5,3]
+],
 
-cyan:{
-  name:"Cianotipia",
-  icon:"☀️",
-  tasks:[
-    ["Hacer el negativo",15],
-    ["Pasar las emulsiones",15],
-    ["Hacer prueba de exposición",15],
-    ["Exponer",15],
-    ["Lavar",10],
-    ["Hacer el acabado",15],
-    ["Ver cómo quedó",10],
-    ["Evaluar si sirve para estampar una camisa",15]
-  ]
-},
+"Aprendizaje":[
+["Aprender inglés",15,8],
+["Aprender algo de música",15,8],
+["Aprender linograbado",15,8],
+["Aprender cianotipia",15,8]
+],
 
-engraving:{
-  name:"Linograbado",
-  icon:"🖤",
-  tasks:[
-    ["Imprimir en back release de sticker",15],
-    ["Hacer transferencia al bloque",20],
-    ["Pasar la tinta",15],
-    ["Hacer pruebas de impresión",20]
-  ]
-},
-
-shirts:{
-  name:"Camisas / estampado",
-  icon:"👕",
-  tasks:[
-    ["Preparar dimensiones de la camisa",15],
-    ["Poner la emulsión",15],
-    ["Dejar secar",10],
-    ["Poner en la lámpara",15],
-    ["Exponer",15],
-    ["Limpiarla",10],
-    ["Ver cómo quedó",10]
-  ]
-},
-
-exercise:{
-  name:"Ejercicio",
-  icon:"🏃",
-  tasks:[
-    ["Salir de casa",10],
-    ["Ir al gimnasio",20],
-    ["Entrenar hasta 20 minutos",25],
-    ["Usar máquinas del gimnasio",20],
-    ["Hacer plank en casa",15],
-    ["Registrar cómo me sentí",5]
-  ]
-},
-
-learning:{
-  name:"Aprendizaje",
-  icon:"📚",
-  tasks:[
-    ["Aprender inglés",15],
-    ["Aprender algo de música",15],
-    ["Aprender linograbado",15],
-    ["Aprender cianotipia",15]
-  ]
-},
-
-home:{
-  name:"Casa / organización",
-  icon:"🏠",
-  tasks:[
-    ["Organizar materiales de arte",15],
-    ["Organizar dónde guardo el arte",20],
-    ["Ordenar herramientas",15],
-    ["Organizar el espacio de trabajo",15],
-    ["Ordenar una zona de la casa",15],
-    ["Limpiar una zona",15],
-    ["Hacer algo pendiente de la casa",15]
-  ]
-}
+"Casa / organización":[
+["Organizar materiales de arte",15,8],
+["Organizar dónde guardo el arte",20,10],
+["Ordenar herramientas",15,8],
+["Organizar el espacio de trabajo",15,8],
+["Ordenar una zona de la casa",15,8],
+["Limpiar una zona",15,8],
+["Hacer algo pendiente de la casa",15,8]
+]
 
 };
 
 
-/* =========================================
-   ESTADO
-========================================= */
+/* ================= AVATARES ================= */
 
-let state=JSON.parse(localStorage.getItem("miRPG2"))||{
-  xp:0,
-  completed:0,
-  days:{},
-  vape:{},
-  journal:{},
-  spontaneous:{},
-  custom:{}
+const avatars=[
+ {id:"roach",name:"CUCARACHA",icon:"🪳",cost:0},
+ {id:"snail",name:"CARACOL",icon:"🐌",cost:100},
+ {id:"mouse",name:"RATÓN",icon:"🐭",cost:250},
+ {id:"frog",name:"RANA",icon:"🐸",cost:450},
+ {id:"cat",name:"GATO",icon:"🐱",cost:700},
+ {id:"fox",name:"ZORRO",icon:"🦊",cost:1000},
+ {id:"raccoon",name:"MAPACHE",icon:"🦝",cost:1300},
+ {id:"coqui",name:"COQUÍ",icon:"🐸",cost:1500}
+];
+
+
+/* ================= ESTADO ================= */
+
+let state=JSON.parse(localStorage.getItem("miRPG")||"null")||{
+ xp:0,
+ points:0,
+ avatar:"roach",
+ unlocked:["roach"],
+ days:{},
+ vape:{},
+ journal:{},
+ spontaneous:{},
+ mood:{},
+ recent:[]
 };
-
-if(!state.days[today]){
-  state.days[today]=[];
-}
-
-if(!state.vape[today]){
-  state.vape[today]=[];
-}
-
-if(!state.journal[today]){
-  state.journal[today]={
-    mood:"",
-    text:""
-  };
-}
 
 function save(){
-  localStorage.setItem("miRPG2",JSON.stringify(state));
+ localStorage.setItem("miRPG",JSON.stringify(state));
 }
 
 
-/* =========================================
-   FECHA EN PANTALLA
-========================================= */
+/* ================= FECHA ================= */
 
-document.getElementById("date").textContent=
-new Date().toLocaleDateString("es-ES",{
-  weekday:"long",
-  day:"numeric",
-  month:"long",
-  year:"numeric"
-});
-
-
-/* =========================================
-   CATEGORÍAS
-========================================= */
-
-function openCategories(){
-
-  const container=document.getElementById("categories");
-
-  container.innerHTML="";
-
-  Object.keys(library).forEach(key=>{
-
-    const c=library[key];
-
-    const button=document.createElement("button");
-
-    button.className="category";
-
-    button.innerHTML=`
-      <div class="category-icon">${c.icon}</div>
-      <div class="category-name">${c.name}</div>
-      <div class="category-count">
-        ${c.tasks.length} actividades
-      </div>
-    `;
-
-    button.onclick=()=>{
-      openActivities(key);
-    };
-
-    container.appendChild(button);
-
-  });
-
-  document.getElementById("categoryModal")
-    .classList.add("show");
+function dateKey(){
+ const d=new Date();
+ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 }
 
-function closeCategories(){
-  document.getElementById("categoryModal")
-    .classList.remove("show");
+function today(){
+ const k=dateKey();
+
+ if(!state.days[k]) state.days[k]=[];
+
+ return state.days[k];
 }
 
 
-/* =========================================
-   ACTIVIDADES
-========================================= */
+/* ================= XP / NIVEL ================= */
 
-let currentCategory="";
-
-function openActivities(key){
-
-  currentCategory=key;
-
-  const c=library[key];
-
-  document.getElementById("activityTitle").textContent=
-    c.icon+" "+c.name;
-
-  const container=document.getElementById("activityList");
-
-  container.innerHTML="";
-
-  let tasks=[...c.tasks];
-
-  if(state.custom[key]){
-    tasks=tasks.concat(
-      state.custom[key].map(x=>[x.name,x.xp,x.id])
-    );
-  }
-
-  tasks.forEach((task,index)=>{
-
-    const name=task[0];
-    const xp=task[1];
-    const id=task[2]||`${key}-${index}`;
-
-    const selected=
-      state.days[today].some(x=>x.id===id);
-
-    const row=document.createElement("div");
-
-    row.className="library-item";
-
-    row.innerHTML=`
-      <button class="library-check ${selected?"selected":""}">
-        ${selected?"✓":""}
-      </button>
-
-      <div class="library-info">
-        <div class="library-name">${name}</div>
-        <div class="library-xp">+${xp} XP</div>
-      </div>
-    `;
-
-    row.querySelector("button").onclick=()=>{
-
-      toggleToday({
-        id:id,
-        name:name,
-        xp:xp,
-        category:key
-      });
-
-      openActivities(key);
-    };
-
-    container.appendChild(row);
-
-  });
-
-  closeCategories();
-
-  document.getElementById("activityModal")
-    .classList.add("show");
+function level(){
+ return Math.floor(state.xp/100)+1;
 }
 
-function closeActivities(){
-  document.getElementById("activityModal")
-    .classList.remove("show");
+function renderProfile(){
+
+ const lv=level();
+ const current=state.xp%100;
+
+ document.getElementById("level").textContent=lv;
+ document.getElementById("xp").textContent=current;
+ document.getElementById("xpbar").style.width=current+"%";
+ document.getElementById("points").textContent=state.points;
+
+ const av=avatars.find(a=>a.id===state.avatar)||avatars[0];
+
+ document.getElementById("mainAvatar").textContent=av.icon;
+ document.getElementById("avatarName").textContent=av.name;
 }
 
 
-/* =========================================
-   SELECCIONAR / QUITAR OBJETIVO
-========================================= */
-
-function toggleToday(item){
-
-  const list=state.days[today];
-
-  const index=list.findIndex(x=>x.id===item.id);
-
-  if(index>=0){
-
-    const completed=list[index].completed;
-
-    if(completed){
-
-      state.xp=Math.max(0,state.xp-list[index].xp);
-      state.completed=Math.max(0,state.completed-1);
-
-    }
-
-    list.splice(index,1);
-
-    showToast("Quitado de hoy");
-
-  }else{
-
-    list.push({
-      ...item,
-      completed:false
-    });
-
-    showToast("Añadido a tus objetivos");
-
-  }
-
-  save();
-  render();
-}
-
-
-/* =========================================
-   AGREGAR ACTIVIDAD PERSONALIZADA
-========================================= */
-
-function addCustom(){
-
-  const input=document.getElementById("customInput");
-
-  const name=input.value.trim();
-
-  if(!name)return;
-
-  if(!state.custom[currentCategory]){
-    state.custom[currentCategory]=[];
-  }
-
-  const item={
-    id:"custom-"+Date.now(),
-    name:name,
-    xp:15
-  };
-
-  state.custom[currentCategory].push(item);
-
-  input.value="";
-
-  save();
-
-  openActivities(currentCategory);
-
-  showToast("Actividad creada");
-}
-
-
-/* =========================================
-   COMPLETAR OBJETIVO
-========================================= */
-
-function completeGoal(id){
-
-  const item=state.days[today]
-    .find(x=>x.id===id);
-
-  if(!item)return;
-
-  if(item.completed){
-
-    item.completed=false;
-
-    state.xp=Math.max(0,state.xp-item.xp);
-    state.completed=Math.max(0,state.completed-1);
-
-    showToast("Objetivo desmarcado");
-
-  }else{
-
-    item.completed=true;
-
-    state.xp+=item.xp;
-    state.completed++;
-
-    showToast("+"+item.xp+" XP");
-
-  }
-
-  save();
-  render();
-}
-
-
-/* =========================================
-   RENDER OBJETIVOS
-========================================= */
+/* ================= OBJETIVOS ================= */
 
 function renderGoals(){
 
-  const container=document.getElementById("todayGoals");
+ const box=document.getElementById("goals");
+ const list=today();
 
-  const goals=state.days[today];
+ if(!list.length){
+   box.innerHTML=
+   `<div class="small" style="padding:20px 0">
+   > No hay objetivos seleccionados.<br>
+   > Tú decides qué quieres intentar hoy.
+   </div>`;
+   return;
+ }
 
-  container.innerHTML="";
+ box.innerHTML=list.map((g,i)=>`
 
-  if(goals.length===0){
+ <div class="goal ${g.done?"done":""}">
 
-    container.innerHTML=`
-      <div class="empty">
-        <div class="empty-icon">○</div>
-        <div>No has elegido objetivos todavía.</div>
-        <div style="font-size:12px;margin-top:4px">
-          Tú decides qué quieres intentar hoy.
-        </div>
-      </div>
-    `;
+   <button class="goal-check" onclick="toggleGoal(${i})">
+   ${g.done?"✓":""}
+   </button>
 
-    return;
-  }
+   <div class="goal-name">${escapeHTML(g.name)}</div>
 
-  goals.forEach(goal=>{
+   <div class="reward">
+   +${g.xp} XP &nbsp; <span>+${g.points}</span>
+   </div>
 
-    const row=document.createElement("div");
+ </div>
 
-    row.className=
-      "goal "+(goal.completed?"done":"");
+ `).join("");
+}
 
-    row.innerHTML=`
-      <button class="check">
-        ${goal.completed?"✓":""}
-      </button>
+function toggleGoal(index){
 
-      <div class="goal-info">
-        <div class="goal-name">${goal.name}</div>
-        <div class="goal-category">
-          ${library[goal.category]?.name||"Personal"}
-        </div>
-      </div>
+ const g=today()[index];
 
-      <div class="goal-xp">
-        +${goal.xp}
-      </div>
-    `;
+ if(!g) return;
 
-    row.querySelector(".check").onclick=()=>{
-      completeGoal(goal.id);
-    };
+ if(!g.done){
 
-    container.appendChild(row);
+   g.done=true;
 
-  });
+   state.xp+=g.xp;
+   state.points+=g.points;
+
+   state.recent.unshift({
+     text:g.name,
+     xp:g.xp,
+     points:g.points,
+     time:new Date().toLocaleTimeString([],{
+       hour:"2-digit",
+       minute:"2-digit"
+     })
+   });
+
+   checkUnlocks();
+
+ }else{
+
+   g.done=false;
+
+   state.xp=Math.max(0,state.xp-g.xp);
+   state.points=Math.max(0,state.points-g.points);
+
+ }
+
+ save();
+ renderAll();
 }
 
 
-/* =========================================
-   VAPE
-========================================= */
+/* ================= CATEGORIAS ================= */
+
+function openCategories(){
+
+ document.getElementById("categoryModal").classList.add("show");
+
+ const box=document.getElementById("categoryList");
+
+ box.innerHTML=Object.keys(activities).map(c=>`
+
+ <button class="category" onclick='openActivities(${JSON.stringify(c)})'>
+
+ <b>${c}</b>
+ <small>${activities[c].length} actividades</small>
+
+ </button>
+
+ `).join("");
+}
+
+function openActivities(category){
+
+ closeModal("categoryModal");
+
+ document.getElementById("activityModal").classList.add("show");
+
+ document.getElementById("activityTitle").textContent=
+ "// "+category.toUpperCase();
+
+ const selected=today();
+
+ document.getElementById("activityList").innerHTML=
+
+ activities[category].map((a,i)=>{
+
+   const exists=selected.some(g=>g.name===a[0]);
+
+   return `
+
+   <div class="activity">
+
+     <div>
+       ${escapeHTML(a[0])}
+       <div class="small">+${a[1]} XP · +${a[2]} puntos</div>
+     </div>
+
+     <button class="${exists?"selected":""}"
+       onclick='toggleActivity(${JSON.stringify(a)})'>
+
+       ${exists?"[ ✓ AÑADIDO ]":"[ + AÑADIR ]"}
+
+     </button>
+
+   </div>
+
+   `;
+
+ }).join("")+
+
+ `<div style="margin-top:15px">
+ <input id="customActivity"
+ placeholder="Agregar algo que no está aquí...">
+ <button class="add" onclick="addCustom()">
+ [ AGREGAR ]
+ </button>
+ </div>`;
+}
+
+function toggleActivity(a){
+
+ const list=today();
+
+ const index=list.findIndex(g=>g.name===a[0]);
+
+ if(index>=0){
+
+   if(!list[index].done) list.splice(index,1);
+
+ }else{
+
+   list.push({
+     name:a[0],
+     xp:a[1],
+     points:a[2],
+     done:false
+   });
+
+ }
+
+ save();
+
+ /* refrescar el modal */
+ const title=document.getElementById("activityTitle").textContent
+ .replace("// ","")
+ .replace(/_/g," ");
+
+ const category=Object.keys(activities).find(c=>
+   c.toUpperCase()===title
+ );
+
+ if(category) openActivities(category);
+
+ renderAll();
+}
+
+function addCustom(){
+
+ const input=document.getElementById("customActivity");
+ const name=input.value.trim();
+
+ if(!name)return;
+
+ today().push({
+   name:name,
+   xp:10,
+   points:5,
+   done:false
+ });
+
+ input.value="";
+
+ save();
+ renderAll();
+}
+
+
+/* ================= COLECCIÓN ================= */
+
+function renderCollection(){
+
+ const html=avatars.map(a=>{
+
+   const unlocked=state.unlocked.includes(a.id);
+   const current=state.avatar===a.id;
+
+   return `
+
+   <div class="avatar-card
+   ${unlocked?"unlocked":""}
+   ${current?"current":""}">
+
+     <div class="pic">${unlocked?a.icon:"?"}</div>
+
+     <div class="name">${a.name}</div>
+
+     ${
+       unlocked
+       ?
+       `<div class="use">
+       ${current?"[ ACTIVO ]":
+       `<button onclick="useAvatar('${a.id}')"
+       style="background:#000;color:var(--green);border:0">
+       [ USAR ]
+       </button>`}
+       </div>`
+       :
+       `<div class="lock">${a.cost} 🪙 🔒</div>`
+     }
+
+   </div>
+
+   `;
+
+ }).join("");
+
+ document.getElementById("collection").innerHTML=html;
+ document.getElementById("collectionBig").innerHTML=html;
+}
+
+function checkUnlocks(){
+
+ avatars.forEach(a=>{
+
+   if(
+     !state.unlocked.includes(a.id) &&
+     state.points>=a.cost &&
+     a.cost>0
+   ){
+
+     state.unlocked.push(a.id);
+
+     state.recent.unshift({
+       text:"¡DESBLOQUEASTE "+a.name+"!",
+       xp:0,
+       points:0,
+       time:new Date().toLocaleTimeString([],{
+         hour:"2-digit",
+         minute:"2-digit"
+       })
+     });
+
+   }
+
+ });
+
+ save();
+}
+
+function useAvatar(id){
+
+ if(!state.unlocked.includes(id))return;
+
+ state.avatar=id;
+
+ save();
+ renderAll();
+}
+
+
+/* ================= VAPE ================= */
+
+function vapeToday(){
+
+ const k=dateKey();
+
+ if(!state.vape[k])state.vape[k]=[];
+
+ return state.vape[k];
+}
 
 function addVape(){
 
-  state.vape[today].push({
-    time:new Date().toLocaleTimeString([],{
-      hour:"2-digit",
-      minute:"2-digit"
-    }),
-    stamp:Date.now()
-  });
+ vapeToday().push(Date.now());
 
-  save();
-  render();
-
-  showToast("Registro guardado");
+ save();
+ renderAll();
 }
 
 function undoVape(){
 
-  if(!state.vape[today].length)return;
+ const list=vapeToday();
 
-  state.vape[today].pop();
-
-  save();
-  render();
-
-  showToast("Último registro eliminado");
+ if(list.length){
+   list.pop();
+   save();
+   renderAll();
+ }
 }
 
 function renderVape(){
 
-  const list=state.vape[today];
+ const list=vapeToday();
 
-  document.getElementById("vapeCount")
-    .textContent=list.length;
+ document.getElementById("vapeCount").textContent=list.length;
+ document.getElementById("usesStat").textContent=list.length;
 
-  const all=Object.values(state.vape)
-    .reduce((a,b)=>a+b.length,0);
+ const last=list[list.length-1];
 
-  document.getElementById("totalVape")
-    .textContent=all;
+ document.getElementById("lastVape").textContent=
+ last?new Date(last).toLocaleTimeString():"—";
 
-  document.getElementById("lastVape")
-    .textContent=list.length?
-      list[list.length-1].time:"—";
+ let best=0;
 
-  let best=null;
+ for(let i=1;i<list.length;i++){
+   best=Math.max(best,list[i]-list[i-1]);
+ }
 
-  for(const day of Object.values(state.vape)){
+ if(best){
+   document.getElementById("bestInterval").textContent=
+   formatDuration(best);
+ }else{
+   document.getElementById("bestInterval").textContent="—";
+ }
 
-    for(let i=1;i<day.length;i++){
+ const history=Object.keys(state.vape)
+ .sort()
+ .reverse()
+ .slice(0,7);
 
-      const gap=day[i].stamp-day[i-1].stamp;
-
-      if(best===null||gap>best){
-        best=gap;
-      }
-
-    }
-  }
-
-  document.getElementById("bestGap")
-    .textContent=best?
-      formatGap(best):"—";
-
-  const history=document.getElementById("vapeHistory");
-
-  history.innerHTML="";
-
-  Object.keys(state.vape)
-    .sort()
-    .reverse()
-    .slice(0,10)
-    .forEach(day=>{
-
-      const row=document.createElement("div");
-
-      row.className="goal";
-
-      row.innerHTML=`
-        <div class="goal-info">
-          <div class="goal-name">${day}</div>
-          <div class="goal-category">Registros</div>
-        </div>
-        <div class="goal-xp">
-          ${state.vape[day].length}
-        </div>
-      `;
-
-      history.appendChild(row);
-
-    });
-}
-
-function formatGap(ms){
-
-  const minutes=Math.floor(ms/60000);
-
-  if(minutes<60){
-    return minutes+"m";
-  }
-
-  const hours=Math.floor(minutes/60);
-  const mins=minutes%60;
-
-  return hours+"h "+mins+"m";
+ document.getElementById("vapeHistory").innerHTML=
+ history.map(k=>
+ `${k} → ${state.vape[k].length} caladas`
+ ).join("<br>");
 }
 
 
-/* =========================================
-   JOURNAL
-========================================= */
+/* ================= REGISTRO ================= */
 
-let selectedMood=state.journal[today].mood||"";
+let selectedMood=null;
 
-function mood(button,value){
+function setMood(mood,button){
 
-  document.querySelectorAll(".mood")
-    .forEach(x=>x.classList.remove("selected"));
+ selectedMood=mood;
 
-  button.classList.add("selected");
+ document.querySelectorAll(".moods button")
+ .forEach(b=>b.classList.remove("selected"));
 
-  selectedMood=value;
+ button.classList.add("selected");
 }
 
 function saveJournal(){
 
-  state.journal[today]={
-    mood:selectedMood,
-    text:document.getElementById("journalText").value
-  };
+ const k=dateKey();
 
-  save();
+ state.journal[k]=document.getElementById("journal").value;
 
-  showToast("Registro guardado");
+ if(selectedMood)state.mood[k]=selectedMood;
+
+ save();
+
+ alert("Registro guardado.");
 }
+
+function loadJournal(){
+
+ const k=dateKey();
+
+ document.getElementById("journal").value=
+ state.journal[k]||"";
+}
+
+
+/* ================= ESPONTÁNEO ================= */
 
 function saveSpontaneous(){
 
-  const text=document
-    .getElementById("spontaneous")
-    .value.trim();
+ const text=document.getElementById("spontaneous").value.trim();
 
-  if(!text)return;
+ if(!text)return;
 
-  if(!state.spontaneous[today]){
-    state.spontaneous[today]=[];
-  }
+ const k=dateKey();
 
-  state.spontaneous[today].push({
-    text:text,
-    time:new Date().toLocaleTimeString([],{
-      hour:"2-digit",
-      minute:"2-digit"
-    })
-  });
+ if(!state.spontaneous[k])state.spontaneous[k]=[];
 
-  document.getElementById("spontaneous").value="";
+ state.spontaneous[k].push({
+   text:text,
+   time:new Date().toLocaleTimeString([],{
+     hour:"2-digit",
+     minute:"2-digit"
+   })
+ });
 
-  save();
+ document.getElementById("spontaneous").value="";
 
-  showToast("Guardado");
+ save();
+
+ renderRecent();
 }
 
 
-/* =========================================
-   PROGRESO
-========================================= */
+/* ================= RECIENTE ================= */
 
-function renderProgress(){
+function renderRecent(){
 
-  const xp=state.xp;
+ const box=document.getElementById("recent");
 
-  const level=Math.floor(xp/100)+1;
+ if(!state.recent.length){
+   box.textContent="Todavía no hay actividad.";
+   return;
+ }
 
-  const current=xp%100;
-
-  document.getElementById("level")
-    .textContent="NIVEL "+level;
-
-  document.getElementById("xp")
-    .textContent=xp;
-
-  document.getElementById("progress")
-    .style.width=current+"%";
-
-  document.getElementById("statCompleted")
-    .textContent=state.completed;
-
-  document.getElementById("statXP")
-    .textContent=state.xp;
-
-  document.getElementById("statVape")
-    .textContent=state.vape[today].length;
+ box.innerHTML=state.recent
+ .slice(0,8)
+ .map(r=>
+ `<div style="margin-bottom:8px">
+ [${r.time}] <span style="color:var(--green)">✓</span>
+ ${escapeHTML(r.text)}
+ ${r.xp?` <span style="color:var(--green)">+${r.xp} XP</span>`:""}
+ ${r.points?` <span style="color:var(--red)">+${r.points}</span>`:""}
+ </div>`
+ ).join("");
 }
 
 
-/* =========================================
-   TABS
-========================================= */
+/* ================= ESTADÍSTICAS ================= */
 
-function tab(id,button){
+function renderStats(){
 
-  document.getElementById("today").style.display="none";
-  document.getElementById("vape").style.display="none";
-  document.getElementById("journal").style.display="none";
+ let completed=0;
 
-  document.getElementById(id).style.display="block";
+ Object.values(state.days).forEach(day=>{
+   day.forEach(g=>{
+     if(g.done)completed++;
+   });
+ });
 
-  document.querySelectorAll(".nav button")
-    .forEach(x=>x.classList.remove("active"));
-
-  button.classList.add("active");
+ document.getElementById("completedTotal").textContent=completed;
+ document.getElementById("totalXP").textContent=state.xp;
 }
 
 
-/* =========================================
-   TOAST
-========================================= */
+/* ================= TABS ================= */
 
-let toastTimer;
+function showTab(tab,button){
 
-function showToast(text){
+ document.querySelectorAll("[id^='tab-']")
+ .forEach(el=>el.style.display="none");
 
-  const toast=document.getElementById("toast");
+ document.getElementById("tab-"+tab).style.display="block";
 
-  toast.textContent=text;
+ document.querySelectorAll(".nav button")
+ .forEach(b=>b.classList.remove("active"));
 
-  toast.classList.add("show");
+ if(button)button.classList.add("active");
 
-  clearTimeout(toastTimer);
-
-  toastTimer=setTimeout(()=>{
-    toast.classList.remove("show");
-  },1600);
+ if(tab==="registro")loadJournal();
 }
 
 
-/* =========================================
-   RENDER GENERAL
-========================================= */
+/* ================= MODAL ================= */
 
-function render(){
+function closeModal(id){
 
-  renderGoals();
-  renderVape();
-  renderProgress();
-
-  const journal=state.journal[today];
-
-  document.getElementById("journalText")
-    .value=journal.text||"";
-
-  document.querySelectorAll(".mood")
-    .forEach(x=>x.classList.remove("selected"));
-
+ document.getElementById(id).classList.remove("show");
 }
 
-render();
+
+/* ================= RELOJ ================= */
+
+function updateClock(){
+
+ const d=new Date();
+
+ document.getElementById("date").textContent=
+ d.toLocaleDateString("es-ES",{
+   weekday:"short",
+   day:"2-digit",
+   month:"short",
+   year:"numeric"
+ }).toUpperCase();
+
+ document.getElementById("time").textContent=
+ d.toLocaleTimeString([],{
+   hour:"2-digit",
+   minute:"2-digit",
+   second:"2-digit"
+ });
+}
+
+setInterval(updateClock,1000);
+
+
+/* ================= UTILIDADES ================= */
+
+function formatDuration(ms){
+
+ const sec=Math.floor(ms/1000);
+
+ const h=Math.floor(sec/3600);
+ const m=Math.floor((sec%3600)/60);
+ const s=sec%60;
+
+ if(h)return `${h}h ${m}m`;
+ if(m)return `${m}m ${s}s`;
+ return `${s}s`;
+}
+
+function escapeHTML(str){
+
+ return String(str)
+ .replaceAll("&","&amp;")
+ .replaceAll("<","&lt;")
+ .replaceAll(">","&gt;")
+ .replaceAll('"',"&quot;")
+ .replaceAll("'","&#039;");
+}
+
+
+/* ================= TODO ================= */
+
+function renderAll(){
+
+ renderProfile();
+ renderGoals();
+ renderCollection();
+ renderVape();
+ renderRecent();
+ renderStats();
+ updateClock();
+}
+
+
+/* ================= ARRANQUE ================= */
+
+renderAll();
 
 </script>
 

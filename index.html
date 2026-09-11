@@ -34,6 +34,8 @@ button,input,textarea{
 
 button{
   cursor:pointer;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
 
 .app{
@@ -205,8 +207,9 @@ button{
 .goal:last-child{border-bottom:0}
 
 .goal-check{
-  width:22px;
-  height:22px;
+  width:32px;
+  min-width:32px;
+  height:32px;
   border:1px solid var(--gray);
   background:#000;
   color:var(--green);
@@ -246,6 +249,47 @@ button{
 .add:hover{
   background:var(--green);
   color:#000;
+}
+
+.reset-day{
+  width:100%;
+  margin-top:8px;
+  background:#000;
+  color:var(--red);
+  border:1px solid var(--red);
+  padding:11px;
+  min-height:44px;
+  cursor:pointer;
+}
+
+.reset-day:hover{
+  background:var(--red);
+  color:#000;
+}
+
+.goal-check{
+  min-width:44px;
+  min-height:44px;
+  width:44px;
+  height:44px;
+  padding:0;
+  cursor:pointer;
+}
+
+.activity button{
+  min-width:120px;
+  min-height:44px;
+  cursor:pointer;
+}
+
+.save{
+  min-height:44px;
+  cursor:pointer;
+}
+
+.vape-button,.undo{
+  min-height:48px;
+  cursor:pointer;
 }
 
 /* CATEGORIES */
@@ -594,6 +638,10 @@ textarea{
 [ + ELEGIR OBJETIVOS ]
 </button>
 
+<button class="reset-day" onclick="resetToday()">
+[ RESET DEL DÍA ]
+</button>
+
 </div>
 
 <div class="panel">
@@ -694,6 +742,11 @@ también es una estrategia."
 <div class="panel">
 <div class="panel-title">HISTORIAL</div>
 <div id="vapeHistory" class="small"></div>
+</div>
+
+<div class="panel">
+<div class="panel-title">ESTADÍSTICAS_VAPE</div>
+<div id="vapeStats" class="small"></div>
 </div>
 
 </div>
@@ -875,7 +928,7 @@ const activities={
 /* ================= AVATARES ================= */
 
 const avatars=[
- {id:"roach",name:"CUCARACHA",icon:"🪳",cost:0},
+ {id:"roach",name:"CUCARACHA",icon:"🪳",img:"cuca.png",cost:0},
  {id:"snail",name:"CARACOL",icon:"🐌",img:"cara.png",cost:100},
  {id:"mouse",name:"RATÓN",icon:"🐭",cost:250},
  {id:"frog",name:"RANA",icon:"🐸",cost:450},
@@ -940,7 +993,7 @@ function renderProfile(){
 
  const av=avatars.find(a=>a.id===state.avatar)||avatars[0];
 
-document.getElementById("mainAvatar").innerHTML='<img src="cuca.png" style="width:100%;height:100%;object-fit:contain">';
+document.getElementById("mainAvatar").innerHTML=av.img?`<img src="${av.img}" style="width:100%;height:100%;object-fit:contain">`:av.icon;
  document.getElementById("avatarName").textContent=av.name;
 }
 
@@ -1295,6 +1348,60 @@ function renderVape(){
 }
 
 
+function renderVapeStats(){
+
+ const now=new Date();
+ const todayKey=dateKey();
+ const todayList=state.vape[todayKey]||[];
+
+ const hourCounts=Array(24).fill(0);
+ todayList.forEach(ts=>{
+   hourCounts[new Date(ts).getHours()]++;
+ });
+
+ const hourly=hourCounts
+   .map((n,h)=>({n,h}))
+   .filter(x=>x.n>0)
+   .map(x=>`${String(x.h).padStart(2,"0")}:00 → ${x.n} calada${x.n===1?"":"s"}`)
+   .join("<br>") || "Todavía no hay caladas hoy.";
+
+ const start7=new Date(now);
+ start7.setHours(0,0,0,0);
+ start7.setDate(start7.getDate()-6);
+
+ let weekTotal=0;
+ const weekRows=[];
+ for(let i=0;i<7;i++){
+   const d=new Date(start7);
+   d.setDate(start7.getDate()+i);
+   const k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+   const n=(state.vape[k]||[]).length;
+   weekTotal+=n;
+   weekRows.push(`${k} → ${n}`);
+ }
+
+ const monthlyRows=[];
+ let monthlyTotal=0;
+ for(let i=0;i<6;i++){
+   const d=new Date(now.getFullYear(),now.getMonth()-i,1);
+   const prefix=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
+   let total=0;
+   Object.keys(state.vape).forEach(k=>{
+     if(k.startsWith(prefix))total+=(state.vape[k]||[]).length;
+   });
+   monthlyTotal+=total;
+   monthlyRows.push(`${prefix} → ${total}`);
+ }
+
+ const avg7=(weekTotal/7).toFixed(1);
+
+ document.getElementById("vapeStats").innerHTML=
+   `<b>POR HORA — HOY</b><br>${hourly}<br><br>`+
+   `<b>ÚLTIMOS 7 DÍAS</b><br>TOTAL: ${weekTotal}<br>PROMEDIO: ${avg7}/día<br>${weekRows.join("<br>")}<br><br>`+
+   `<b>ÚLTIMOS 6 MESES</b><br>${monthlyRows.join("<br>")}<br><br>`+
+   `<span class="small">TOTAL 6 MESES: ${monthlyTotal}</span>`;
+}
+
 /* ================= REGISTRO ================= */
 
 let selectedMood=null;
@@ -1491,8 +1598,23 @@ function renderAll(){
 }
 
 
+/* ================= RESET DEL DÍA ================= */
+
+function resetToday(){
+  if(!confirm("¿Seguro que quieres reiniciar el día? Esto borrará solo los datos de HOY. Tu XP, puntos, avatares desbloqueados y avatar actual se mantienen.")) return;
+
+  const k=dateKey();
+
+  delete state.days[k];
+
+  save();
+  loadJournal();
+  renderAll();
+}
+
 /* ================= ARRANQUE ================= */
 
+checkUnlocks();
 renderAll();
 
 </script>
